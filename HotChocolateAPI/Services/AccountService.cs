@@ -31,6 +31,7 @@ namespace HotChocolateAPI.Services
             _context = context;
             _passwordHasher = passwordHasher;
             _authenticationSettings = authenticationSettings;
+
         }
         public void RegisterUser(RegisterUserDto dto)
         {

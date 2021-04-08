@@ -27,6 +27,7 @@ namespace HotChocolateAPI
     {
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
         }
 

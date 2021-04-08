@@ -1,4 +1,5 @@
 ﻿using HotChocolateAPI.Entities;
+using HotChocolateAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ namespace HotChocolateAPI.Services
 {
     public interface IOrdersService
     {
-
+        
+        CreateOrderDto Create(CreateOrderDto dto);
     }
     public class OrdersService : IOrdersService
     {
@@ -17,6 +19,10 @@ namespace HotChocolateAPI.Services
         {
             _context = context;
 
+        }
+        public CreateOrderDto Create(CreateOrderDto dto)
+        {
+            return 
         }
 
     }

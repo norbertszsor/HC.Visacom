@@ -1,4 +1,5 @@
-﻿using HotChocolateAPI.Services;
+﻿using HotChocolateAPI.Models;
+using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,13 @@ namespace HotChocolateAPI.Controllers
             _ordersSrevice = OrdersService;
         }
         [HttpPost("create")]
-        public ActionResult Create([FromBody] CreateOrderDTO dto)
+        public ActionResult Create([FromBody] CreateOrderDto dto)
         {
 
 
-            var id = restaurantService.Create(dto);
+            _ordersSrevice.Create(dto);
 
-            return Created($"/api/restaurant/{id}", null);
+            return Ok();
         }
     }
 }

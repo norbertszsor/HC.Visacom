@@ -101,7 +101,7 @@ namespace HotChocolateAPI.Services
         }
         public void ChangeActivity(int id, ManageAccountDto dto)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var user = _context.Users.Include(x=>x.Role).FirstOrDefault(x => x.Id == id);
             if (user == null)
                 throw new BadRequestException("User doesnt exist");
 

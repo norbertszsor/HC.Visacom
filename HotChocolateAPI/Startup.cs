@@ -20,6 +20,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HotChocolateAPI.Middleware;
+using AutoMapper;
+
 
 namespace HotChocolateAPI
 {
@@ -56,7 +58,7 @@ namespace HotChocolateAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey))
                 };
             });
-
+            services.AddAutoMapper(this.GetType().Assembly);
             services.AddControllers().AddFluentValidation(); ;
             services.AddDbContext<HotChocolateDbContext>();
             services.AddScoped<ErrorHandlingMiddleware>();
@@ -76,9 +78,11 @@ namespace HotChocolateAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            
 
             app.UseRouting();
 

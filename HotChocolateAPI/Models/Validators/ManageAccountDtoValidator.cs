@@ -17,8 +17,7 @@ namespace HotChocolateAPI.Models.Validators
                 {
                 if (value.GetType()!=typeof(bool))
                         
-                        context.AddFailure("IsActivated","wrong value");
-                        
+                        context.AddFailure("IsActivated","wrong value");      
                 });
         }
     }

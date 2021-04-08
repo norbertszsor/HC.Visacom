@@ -178,3 +178,5 @@ C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolate
 C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\obj\Debug\net5.0\HotChocolateAPI.RazorTargetAssemblyInfo.cache
 C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\obj\Debug\net5.0\HotChocolateAPI.csproj.CopyComplete
 C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\obj\Debug\net5.0\HotChocolateAPI.genruntimeconfig.cache
+C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

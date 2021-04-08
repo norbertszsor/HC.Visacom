@@ -4,25 +4,38 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using AutoMapper;
 namespace HotChocolateAPI.Services
 {
     public interface IOrdersService
     {
-        
-        CreateOrderDto Create(CreateOrderDto dto);
+
+        int Create(CreateOrderDto dto);
     }
+    
     public class OrdersService : IOrdersService
     {
         private readonly HotChocolateDbContext _context;
-        public OrdersService(HotChocolateDbContext context)
+        private readonly IMapper _mapper;
+        private readonly IUserContextService _userContextService;
+
+        public OrdersService(HotChocolateDbContext context, IMapper mapper, IUserContextService userContextService)
         {
             _context = context;
-
+            _mapper = mapper;
+            _userContextService = userContextService;
         }
-        public CreateOrderDto Create(CreateOrderDto dto)
+        public int Create(CreateOrderDto dto)
         {
-            return 
+            var order = _mapper.Map<Order>(dto);
+
+            order.UserId = (int)_userContextService.GetUserId;
+
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+             
+            return order.Id;
         }
 
     }

@@ -22,9 +22,9 @@ namespace HotChocolateAPI.Controllers
         {
 
 
-            _ordersSrevice.Create(dto);
+            var result = _ordersSrevice.Create(dto);
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

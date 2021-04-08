@@ -63,6 +63,7 @@ namespace HotChocolateAPI
             services.AddDbContext<HotChocolateDbContext>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<HotChocolateSeeder>();
+            services.AddScoped<IUserContextService, UserContextService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IOrdersService, OrdersService>();

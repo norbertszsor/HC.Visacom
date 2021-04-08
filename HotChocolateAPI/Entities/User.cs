@@ -18,5 +18,6 @@ namespace HotChocolateAPI.Entities
 
         public virtual Address Address { get; set; }
         public virtual Role Role { get; set; }
+        
     }
 }

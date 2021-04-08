@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net5.0": {
-      "FluentValidation/9.5.3": {
+      "FluentValidation/10.0.1": {
         "type": "package",
         "compile": {
           "lib/net5.0/FluentValidation.dll": {}
@@ -1452,22 +1452,22 @@
     }
   },
   "libraries": {
-    "FluentValidation/9.5.3": {
-      "sha512": "BataCga/cwQUeo9yy8dzDnihx3N5l1+wj6kEQOkdQ5FIsSFcWD/UjdPJ2jNKODSPAtYuDH5KLM5IBrr1UCNf/A==",
+    "FluentValidation/10.0.1": {
+      "sha512": "Nxf2U2JjcPy4vxZ4PzuyX32JcU7mB9oceXDyztGcAYmorAZD/fz513dschMzrgO1q7RRItaNtbqiTYtWCDRxfA==",
       "type": "package",
-      "path": "fluentvalidation/9.5.3",
+      "path": "fluentvalidation/10.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "fluent-validation-icon.png",
-        "fluentvalidation.9.5.3.nupkg.sha512",
+        "fluentvalidation.10.0.1.nupkg.sha512",
         "fluentvalidation.nuspec",
-        "lib/net461/FluentValidation.dll",
-        "lib/net461/FluentValidation.xml",
         "lib/net5.0/FluentValidation.dll",
         "lib/net5.0/FluentValidation.xml",
         "lib/netstandard2.0/FluentValidation.dll",
-        "lib/netstandard2.0/FluentValidation.xml"
+        "lib/netstandard2.0/FluentValidation.xml",
+        "lib/netstandard2.1/FluentValidation.dll",
+        "lib/netstandard2.1/FluentValidation.xml"
       ]
     },
     "FluentValidation.AspNetCore/9.5.3": {
@@ -5452,6 +5452,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "FluentValidation >= 10.0.1",
       "FluentValidation.AspNetCore >= 9.5.3",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.4",
       "Microsoft.EntityFrameworkCore >= 5.0.4",
@@ -5460,20 +5461,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dawid\\.nuget\\packages\\": {}
+    "C:\\Users\\denyo\\.nuget\\packages\\": {},
+    "E:\\VS_dodatek\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\git\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
+      "projectUniqueName": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
       "projectName": "HotChocolateAPI",
-      "projectPath": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\git\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
-      "packagesPath": "C:\\Users\\dawid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\git\\HC.VisacomAPI\\HotChocolateAPI\\obj\\",
+      "projectPath": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
+      "packagesPath": "C:\\Users\\denyo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "E:\\VS_dodatek\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\dawid\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\denyo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -5498,6 +5507,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "FluentValidation": {
+            "target": "Package",
+            "version": "[10.0.1, )"
+          },
           "FluentValidation.AspNetCore": {
             "target": "Package",
             "version": "[9.5.3, )"
@@ -5539,7 +5552,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

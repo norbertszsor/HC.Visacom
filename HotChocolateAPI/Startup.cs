@@ -63,6 +63,7 @@ namespace HotChocolateAPI
             services.AddScoped<HotChocolateSeeder>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
         }

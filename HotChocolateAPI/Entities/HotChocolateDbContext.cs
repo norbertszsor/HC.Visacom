@@ -11,6 +11,14 @@ namespace HotChocolateAPI.Entities
         private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=HotChocolateDb;Trusted_Connection=True;";
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Opinion> Opinions { get; set; }
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

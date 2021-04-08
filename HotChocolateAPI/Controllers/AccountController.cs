@@ -35,11 +35,25 @@ namespace HotChocolateAPI.Controllers
             }
             return NotFound();
         }
+
         [HttpPost("login")]
         public ActionResult Login([FromBody]LoginDto dto)
         {
             string token = _accountService.GenerateJwt(dto);
+
             return Ok(token);
         }
+
+        [HttpPut("manage/{id}")]
+
+        [Authorize(Roles ="Admin")]
+
+        public ActionResult ManageAccount([FromRoute] int id,[FromBody] ManageAccountDto dto)
+        {
+            _accountService.ChangeActivity(id,dto);
+
+            return Ok();
+        }
+
     }
 }

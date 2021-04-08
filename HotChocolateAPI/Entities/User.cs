@@ -13,6 +13,10 @@ namespace HotChocolateAPI.Entities
         public string LastName { get; set; }
         public string PasswordHash { get; set; }
         public int RoleId { get; set; }
+        public int? AddressId { get; set; }
+        public bool IsActivated { get; set; }
+
+        public virtual Address Address { get; set; }
         public virtual Role Role { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
+
 namespace HotChocolateAPI.Services
 {
     public interface IAccountService
@@ -19,6 +20,7 @@ namespace HotChocolateAPI.Services
         public void RegisterUser(RegisterUserDto dto);
         public bool Delete(int i);
         public string GenerateJwt(LoginDto dto);
+        public void ChangeActivity(int id, ManageAccountDto dto);
     }
     public class AccountService : IAccountService
     {
@@ -40,7 +42,9 @@ namespace HotChocolateAPI.Services
                 Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                RoleId = 1
+                RoleId = 1,
+                IsActivated = true
+                
             };
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
@@ -69,6 +73,9 @@ namespace HotChocolateAPI.Services
             {
                 throw new BadRequestException("Invalid username or password");
             }
+            if (user.IsActivated == false)
+                throw new BadImageFormatException("Account banned");
+
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if(result == PasswordVerificationResult.Failed)
             {
@@ -91,6 +98,16 @@ namespace HotChocolateAPI.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+        public void ChangeActivity(int id, ManageAccountDto dto)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            if (user == null)
+                throw new BadRequestException("User doesnt exist");
+
+            user.IsActivated = dto.IsActivated;
+
+            _context.SaveChanges();
         }
     }
 }

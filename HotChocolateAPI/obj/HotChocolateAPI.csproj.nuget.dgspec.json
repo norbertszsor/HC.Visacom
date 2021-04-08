@@ -1,21 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\HotChocolateAPI\\HotChocolateAPI\\HotChocolateAPI.csproj": {}
+    "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\HotChocolateAPI\\HotChocolateAPI\\HotChocolateAPI.csproj": {
+    "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\HotChocolateAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
+        "projectUniqueName": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
         "projectName": "HotChocolateAPI",
-        "projectPath": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\HotChocolateAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
-        "packagesPath": "C:\\Users\\dawid\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dawid\\Documents\\Studia\\Semestr 6\\VisaCom\\HotChocolateAPI\\HotChocolateAPI\\obj\\",
+        "projectPath": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\HotChocolateAPI.csproj",
+        "packagesPath": "C:\\Users\\denyo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\denyo\\source\\repos\\VisaComApi\\HC.VisacomAPI\\HotChocolateAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\VS_dodatek\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\dawid\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\denyo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -81,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

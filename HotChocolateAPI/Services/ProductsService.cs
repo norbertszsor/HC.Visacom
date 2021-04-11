@@ -74,6 +74,7 @@ namespace HotChocolateAPI.Services
                 opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
                 _context.SaveChanges();
             }
+        }
 =======
         public void DeleteProduct(int id)
         {

@@ -13,9 +13,13 @@ namespace HotChocolateAPI.Services
     public interface IProductService
     {
         void AddProduct(CreateProductDto dto);
+<<<<<<< HEAD
         public void AddOpinion(OpininDto dto, int idProduct);
 
 
+=======
+        void DeleteProduct(int id);
+>>>>>>> 432806874e9ececdf2332f8099a5fd03d7426be9
     }
     public class ProductsService : IProductService
     {
@@ -44,6 +48,7 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
         }
+<<<<<<< HEAD
         public void AddOpinion(OpininDto dto, int idProduct)
         {
             var iduser = (int)_userContextService.GetUserId;
@@ -68,6 +73,21 @@ namespace HotChocolateAPI.Services
                 opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
                 _context.SaveChanges();
             }
+=======
+        public void DeleteProduct(int id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (product == null) 
+                throw new ProductAlreadyExistException($"Produkt o id: {id} nie istnieje");
+                
+            
+
+            var result = _context.Products.Remove(product);
+         
+            _context.SaveChanges();
+
+           
+>>>>>>> 432806874e9ececdf2332f8099a5fd03d7426be9
         }
     }
 }

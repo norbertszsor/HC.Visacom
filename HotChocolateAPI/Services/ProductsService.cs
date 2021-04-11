@@ -6,12 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateAPI.Services
 {
     public interface IProductService
     {
         void AddProduct(CreateProductDto dto);
+        public void AddOpinion(OpininDto dto, int idProduct);
+
+
     }
     public class ProductsService : IProductService
     {
@@ -39,6 +43,31 @@ namespace HotChocolateAPI.Services
 
             _context.SaveChanges();
 
+        }
+        public void AddOpinion(OpininDto dto, int idProduct)
+        {
+            var iduser = (int)_userContextService.GetUserId;
+            var orders = _context.Orders.Include(x => x.productsForOrder).FirstOrDefault(x => x.UserId == iduser && x.productsForOrder.ProductId == idProduct);
+            if (orders == null)
+                throw new ProductAlreadyExistException("Nie możesz dodać opinni dla tego produktu bez zakupu");
+            var opinion = _context.Opinions.FirstOrDefault(x => x.UserId == iduser && x.ProductId == idProduct);
+            if (opinion == null)
+            {
+                opinion = new Opinion();
+                opinion.Date = DateTime.Now.ToShortDateString();
+                opinion.UserId = iduser;
+                opinion.Stars = dto.Stars;
+                opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
+                _context.Opinions.Add(opinion);
+                _context.SaveChanges();
+            }
+            else
+            {
+                opinion.Date = DateTime.Now.ToShortDateString();
+                opinion.Stars = dto.Stars;
+                opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
+                _context.SaveChanges();
+            }
         }
     }
 }

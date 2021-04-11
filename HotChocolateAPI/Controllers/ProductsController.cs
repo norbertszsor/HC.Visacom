@@ -18,13 +18,20 @@ namespace HotChocolateAPI.Controllers
         public ProductsController(IProductService productService)
         {
             _productService = productService;
-        }      
-        [HttpPost]
-        [Authorize(Roles ="Admin")]
+        }
+        [HttpPost("addproduct")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddProduct([FromBody] CreateProductDto dto)
         {
             _productService.AddProduct(dto);
-            
+
+            return Ok();
+        }
+        [HttpPost("addopinion")]
+        [Authorize]
+        public ActionResult AddOpinion([FromBody] OpininDto dto, [FromRoute] int id)
+        {
+            _productService.AddOpinion(dto, id);
             return Ok();
         }
     }

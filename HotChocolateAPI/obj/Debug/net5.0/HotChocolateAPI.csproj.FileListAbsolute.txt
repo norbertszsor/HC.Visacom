@@ -184,3 +184,9 @@ C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\n
 C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\denyo\source\repos\VisaComApi\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\dawid\Documents\Studia\Semestr 6\VisaCom\git\HC.VisacomAPI\HotChocolateAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll

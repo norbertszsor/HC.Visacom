@@ -5,14 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using HotChocolateAPI.Exceptions;
+
 namespace HotChocolateAPI.Services
 {
     public interface IOrdersService
     {
 
         int Create(CreateOrderDto dto);
+        public List<OrderListDto> GetAll();
+
     }
-    
+
     public class OrdersService : IOrdersService
     {
         private readonly HotChocolateDbContext _context;
@@ -36,6 +40,17 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
              
             return order.Id;
+        }
+        public List<OrderListDto> GetAll()
+        {
+            var list = _context.Orders.ToList();
+
+            if (list == null)
+                throw new BadRequestException("Empty list of Orders");
+
+            var result = _mapper.Map<List<OrderListDto>>(list);
+
+            return result;
         }
 
     }

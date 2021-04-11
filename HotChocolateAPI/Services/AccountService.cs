@@ -22,6 +22,7 @@ namespace HotChocolateAPI.Services
         string GenerateJwt(LoginDto dto);
         void ChangeActivity(int id, ManageAccountDto dto);
         List<UserList> GetAll();
+        public void ChangePassword(NewPasswordDto dto);
 
 
     }
@@ -31,13 +32,16 @@ namespace HotChocolateAPI.Services
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IMapper _mapper;
+        private readonly IUserContextService _userContextService;
 
-        public AccountService(HotChocolateDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings, IMapper mapper)
+
+        public AccountService(HotChocolateDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings, IMapper mapper, IUserContextService userContextService)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _authenticationSettings = authenticationSettings;
             _mapper = mapper;
+            _userContextService = userContextService;
         }
         
         public List<UserList> GetAll()
@@ -127,6 +131,24 @@ namespace HotChocolateAPI.Services
             user.IsActivated = dto.IsActivated;
 
             _context.SaveChanges();
+        }
+        public void ChangePassword(NewPasswordDto dto)
+        {
+            var iduser = (int)_userContextService.GetUserId;
+
+            var user = _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Id == iduser);
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.OldPassword);
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new BadRequestException("Incorrect password");
+            }
+            var newhashedPassword = _passwordHasher.HashPassword(user, dto.NewPassword);
+            user.PasswordHash = newhashedPassword;
+            _context.SaveChanges();
+
+
         }
     }
 }

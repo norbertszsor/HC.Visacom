@@ -65,6 +65,13 @@ namespace HotChocolateAPI.Controllers
 
             return Ok(listOfUsers);
         }
+        [HttpPatch("changepassword")]
+        [Authorize]
+        public ActionResult ChangePassword([FromBody] NewPasswordDto dto)
+        {
+            _accountService.ChangePassword(dto);
+            return Ok();
+        }
 
     }
 }

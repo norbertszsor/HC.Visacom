@@ -71,6 +71,10 @@ namespace HotChocolateAPI
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+            services.AddScoped<IValidator<NewPasswordDto>, NewPasswordDtoValidator>();
+            services.AddScoped<IValidator<ManageAccountDto>, ManageAccountDtoValidator>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

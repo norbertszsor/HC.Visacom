@@ -13,6 +13,7 @@ namespace HotChocolateAPI.Mapping
         public MappingProfile()
         {
             CreateMap<User, UserList>();
+            CreateMap<Order, OrderListDto>();
         }
     }
 }

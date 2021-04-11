@@ -74,6 +74,7 @@ namespace HotChocolateAPI
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddScoped<IValidator<NewPasswordDto>, NewPasswordDtoValidator>();
             services.AddScoped<IValidator<ManageAccountDto>, ManageAccountDtoValidator>();
+            services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
 
 
         }

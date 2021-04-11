@@ -34,5 +34,10 @@ namespace HotChocolateAPI.Controllers
 
             return NoContent();
         }
+        public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
+        {
+            _productService.UpdateProduct(id, dto);
+            return NoContent();
+        }
     }
 }

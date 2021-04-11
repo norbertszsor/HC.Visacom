@@ -27,5 +27,12 @@ namespace HotChocolateAPI.Controllers
             
             return Ok();
         }
+        [HttpDelete("delete/{id}")]
+        public ActionResult DeleteProduct([FromRoute] int id)
+        {
+            _productService.DeleteProduct(id);
+
+            return NoContent();
+        }
     }
 }

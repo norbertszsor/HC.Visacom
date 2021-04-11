@@ -12,6 +12,7 @@ namespace HotChocolateAPI.Services
     public interface IProductService
     {
         void AddProduct(CreateProductDto dto);
+        void DeleteProduct(int id);
     }
     public class ProductsService : IProductService
     {
@@ -39,6 +40,20 @@ namespace HotChocolateAPI.Services
 
             _context.SaveChanges();
 
+        }
+        public void DeleteProduct(int id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (product == null) 
+                throw new ProductAlreadyExistException($"Produkt o id: {id} nie istnieje");
+                
+            
+
+            var result = _context.Products.Remove(product);
+         
+            _context.SaveChanges();
+
+           
         }
     }
 }

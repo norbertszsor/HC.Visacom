@@ -25,6 +25,11 @@ namespace HotChocolateAPI.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(emptyList.Message);
             }
+            catch(ProductAlreadyExistException prod)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(prod.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;

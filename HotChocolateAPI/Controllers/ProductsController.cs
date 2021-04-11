@@ -1,5 +1,6 @@
 ﻿using HotChocolateAPI.Models;
 using HotChocolateAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace HotChocolateAPI.Controllers
         {
             _productService = productService;
         }      
-
+        [HttpPost]
+        [Authorize(Roles ="Admin")]
         public ActionResult AddProduct([FromBody] CreateProductDto dto)
         {
             _productService.AddProduct(dto);

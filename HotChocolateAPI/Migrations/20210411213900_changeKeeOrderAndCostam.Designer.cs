@@ -4,14 +4,16 @@ using HotChocolateAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotChocolateAPI.Migrations
 {
     [DbContext(typeof(HotChocolateDbContext))]
-    partial class HotChocolateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210411213900_changeKeeOrderAndCostam")]
+    partial class changeKeeOrderAndCostam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,6 +68,8 @@ namespace HotChocolateAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -209,11 +213,19 @@ namespace HotChocolateAPI.Migrations
 
             modelBuilder.Entity("HotChocolateAPI.Entities.Opinion", b =>
                 {
+                    b.HasOne("HotChocolateAPI.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HotChocolateAPI.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });

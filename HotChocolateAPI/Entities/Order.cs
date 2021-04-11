@@ -14,8 +14,6 @@ namespace HotChocolateAPI.Entities
         public virtual Address Address { get; set; }
         public DateTime Date { get; set; }
         public string Status { get; set; }
-        public ProductsForOrder productsForOrder { get; set; }
-
 
     }
 }

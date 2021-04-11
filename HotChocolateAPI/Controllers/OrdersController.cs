@@ -11,7 +11,7 @@ using HotChocolateAPI.Entities;
 
 namespace HotChocolateAPI.Controllers
 {
-    [Route("/api/order")]
+    [Route("/api/orders")]
     [ApiController]
     public class OrdersController : Controller
     {

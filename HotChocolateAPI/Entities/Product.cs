@@ -11,9 +11,5 @@ namespace HotChocolateAPI.Entities
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public Opinion Opinion { get; set; }
-        public int? OpinionId { get; set; }
-
-
     }
 }

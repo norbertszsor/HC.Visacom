@@ -6,14 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateAPI.Services
 {
     public interface IProductService
     {
         void AddProduct(CreateProductDto dto);
+<<<<<<< HEAD
+        public void AddOpinion(OpininDto dto, int idProduct);
+
+
+=======
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
+>>>>>>> 432806874e9ececdf2332f8099a5fd03d7426be9
     }
     public class ProductsService : IProductService
     {
@@ -42,6 +49,32 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
         }
+<<<<<<< HEAD
+        public void AddOpinion(OpininDto dto, int idProduct)
+        {
+            var iduser = (int)_userContextService.GetUserId;
+            var orders = _context.Orders.Include(x => x.productsForOrder).FirstOrDefault(x => x.UserId == iduser && x.productsForOrder.ProductId == idProduct);
+            if (orders == null)
+                throw new ProductAlreadyExistException("Nie możesz dodać opinni dla tego produktu bez zakupu");
+            var opinion = _context.Opinions.FirstOrDefault(x => x.UserId == iduser && x.ProductId == idProduct);
+            if (opinion == null)
+            {
+                opinion = new Opinion();
+                opinion.Date = DateTime.Now.ToShortDateString();
+                opinion.UserId = iduser;
+                opinion.Stars = dto.Stars;
+                opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
+                _context.Opinions.Add(opinion);
+                _context.SaveChanges();
+            }
+            else
+            {
+                opinion.Date = DateTime.Now.ToShortDateString();
+                opinion.Stars = dto.Stars;
+                opinion.DescriptionOfOpinion = dto.DescriptionOfOpinion;
+                _context.SaveChanges();
+            }
+=======
         public void DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);

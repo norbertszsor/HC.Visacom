@@ -4,14 +4,16 @@ using HotChocolateAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotChocolateAPI.Migrations
 {
     [DbContext(typeof(HotChocolateDbContext))]
-    partial class HotChocolateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210411142438_FixedOrderTable")]
+    partial class FixedOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,10 +55,15 @@ namespace HotChocolateAPI.Migrations
                     b.Property<string>("DescriptionOfOpinion")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Opinions");
                 });
@@ -102,15 +109,10 @@ namespace HotChocolateAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OpinionId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OpinionId");
 
                     b.ToTable("Products");
                 });
@@ -201,6 +203,13 @@ namespace HotChocolateAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("HotChocolateAPI.Entities.Opinion", b =>
+                {
+                    b.HasOne("HotChocolateAPI.Entities.Product", null)
+                        .WithMany("Opinions")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("HotChocolateAPI.Entities.Order", b =>
                 {
                     b.HasOne("HotChocolateAPI.Entities.Address", "Address")
@@ -218,15 +227,6 @@ namespace HotChocolateAPI.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.Product", b =>
-                {
-                    b.HasOne("HotChocolateAPI.Entities.Opinion", "Opinion")
-                        .WithMany()
-                        .HasForeignKey("OpinionId");
-
-                    b.Navigation("Opinion");
                 });
 
             modelBuilder.Entity("HotChocolateAPI.Entities.ProductsForOrder", b =>
@@ -263,6 +263,11 @@ namespace HotChocolateAPI.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("HotChocolateAPI.Entities.Product", b =>
+                {
+                    b.Navigation("Opinions");
                 });
 #pragma warning restore 612, 618
         }

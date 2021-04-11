@@ -8,6 +8,6 @@ namespace HotChocolateAPI.Entities
     public class Role
     {
         public int Id { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
     }
 }

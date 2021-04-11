@@ -15,6 +15,7 @@ namespace HotChocolateAPI.Entities
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
+        public DbSet<ProductsForOrder> ProductsForOrders { get; set; }
 
 
 

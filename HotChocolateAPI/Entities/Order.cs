@@ -13,6 +13,7 @@ namespace HotChocolateAPI.Entities
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public DateTime Date { get; set; }
-        public int[] ProductId { get; set; }
+        public string Status { get; set; }
+
     }
 }

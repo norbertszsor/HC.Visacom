@@ -89,14 +89,16 @@ namespace HotChocolateAPI.Services
             {
                 throw new BadRequestException("Invalid username or password");
             }
-            if (user.IsActivated == false)
-                throw new BadImageFormatException("Account banned");
+           
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if(result == PasswordVerificationResult.Failed)
             {
                 throw new BadRequestException("Invalid username or password");
             }
+            if (user.IsActivated == false)
+                throw new BadImageFormatException("Account banned");
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

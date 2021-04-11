@@ -16,6 +16,8 @@ namespace HotChocolateAPI.Mapping
 
             CreateMap<User, UserList>().ReverseMap();
 
+            CreateMap<Product, CreateProductDto>().ReverseMap();
+
             
 
 

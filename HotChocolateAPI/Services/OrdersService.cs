@@ -44,7 +44,7 @@ namespace HotChocolateAPI.Services
              
             return order.Id;
         }
-        public List<Order> GetAll()
+        public List<Order> GetAll() // later aligator
         {
             var listOfOrders = _context
                 .Orders

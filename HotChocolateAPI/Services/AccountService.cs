@@ -11,29 +11,45 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-
+using AutoMapper;
 
 namespace HotChocolateAPI.Services
 {
     public interface IAccountService
     {
-        public void RegisterUser(RegisterUserDto dto);
-        public bool Delete(int i);
-        public string GenerateJwt(LoginDto dto);
-        public void ChangeActivity(int id, ManageAccountDto dto);
+        void RegisterUser(RegisterUserDto dto);
+        bool Delete(int i);
+        string GenerateJwt(LoginDto dto);
+        void ChangeActivity(int id, ManageAccountDto dto);
+        List<UserList> GetAll();
+
+
     }
     public class AccountService : IAccountService
     {
         private readonly HotChocolateDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly AuthenticationSettings _authenticationSettings;
+        private readonly IMapper _mapper;
 
-        public AccountService(HotChocolateDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings)
+        public AccountService(HotChocolateDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings, IMapper mapper)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _authenticationSettings = authenticationSettings;
+            _mapper = mapper;
+        }
+        
+        public List<UserList> GetAll()
+        {
+            var list = _context.Users.ToList();
 
+            if (list == null)
+                throw new BadRequestException("Empty list of Users");
+
+            var result = _mapper.Map<List<UserList>>(list);
+
+            return result;
         }
         public void RegisterUser(RegisterUserDto dto)
         {
@@ -97,6 +113,7 @@ namespace HotChocolateAPI.Services
                 signingCredentials: cred);
 
             var tokenHandler = new JwtSecurityTokenHandler();
+
             return tokenHandler.WriteToken(token);
         }
         public void ChangeActivity(int id, ManageAccountDto dto)

@@ -19,6 +19,7 @@ namespace HotChocolateAPI.Controllers
             _accountService = accountService;
         }
         [HttpPost("register")]
+        [AllowAnonymous]
         public ActionResult RegisterUrer([FromBody]RegisterUserDto dto)
         {
             _accountService.RegisterUser(dto);
@@ -37,6 +38,7 @@ namespace HotChocolateAPI.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public ActionResult Login([FromBody]LoginDto dto)
         {
             string token = _accountService.GenerateJwt(dto);
@@ -53,6 +55,15 @@ namespace HotChocolateAPI.Controllers
             _accountService.ChangeActivity(id,dto);
 
             return Ok();
+        }
+        [HttpGet("manage")]
+        [Authorize(Roles ="Admin")]
+        public ActionResult GetUsers()
+        {
+            var listOfUsers = _accountService.GetAll();
+
+
+            return Ok(listOfUsers);
         }
 
     }

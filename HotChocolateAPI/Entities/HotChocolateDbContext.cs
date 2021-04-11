@@ -9,6 +9,7 @@ namespace HotChocolateAPI.Entities
     public class HotChocolateDbContext: DbContext
     {
         private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=HotChocolateDb;Trusted_Connection=True;";
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }

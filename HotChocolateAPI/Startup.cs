@@ -23,6 +23,7 @@ using HotChocolateAPI.Middleware;
 using AutoMapper;
 
 
+
 namespace HotChocolateAPI
 {
     public class Startup
@@ -59,6 +60,7 @@ namespace HotChocolateAPI
                 };
             });
             services.AddAutoMapper(this.GetType().Assembly);
+            services.AddSwaggerGen();
             services.AddControllers().AddFluentValidation(); ;
             services.AddDbContext<HotChocolateDbContext>();
             services.AddScoped<ErrorHandlingMiddleware>();
@@ -82,8 +84,15 @@ namespace HotChocolateAPI
             
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseAuthentication();
+
             app.UseHttpsRedirection();
-            
+
+            app.UseSwagger(); //endpointy w swaggerze
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HotChocolate API");
+            });
+
 
             app.UseRouting();
 

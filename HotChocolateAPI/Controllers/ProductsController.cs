@@ -27,13 +27,7 @@ namespace HotChocolateAPI.Controllers
 
             return Ok();
         }
-        [HttpPost("addopinion")]
-        [Authorize]
-        public ActionResult AddOpinion([FromBody] OpininDto dto, [FromRoute] int id)
-        {
-            _productService.AddOpinion(dto, id);
-            return Ok();
-        }
+      
         [HttpDelete("delete/{id}")]
         public ActionResult DeleteProduct([FromRoute] int id)
         {
@@ -41,10 +35,20 @@ namespace HotChocolateAPI.Controllers
 
             return NoContent();
         }
+        [HttpPut("{id}")]
         public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
         {
             _productService.UpdateProduct(id, dto);
+
             return NoContent();
+        }
+
+        [HttpPost("addopinion/{id}")] 
+        [Authorize]
+        public ActionResult AddOpinion([FromBody] OpininDto dto, [FromRoute] int id)
+        {
+            _productService.AddOpinion(dto, id);
+            return Ok();
         }
     }
 }

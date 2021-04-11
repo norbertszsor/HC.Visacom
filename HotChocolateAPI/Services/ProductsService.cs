@@ -13,14 +13,14 @@ namespace HotChocolateAPI.Services
     public interface IProductService
     {
         void AddProduct(CreateProductDto dto);
-<<<<<<< HEAD
+
         public void AddOpinion(OpininDto dto, int idProduct);
 
 
-=======
+
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
->>>>>>> 432806874e9ececdf2332f8099a5fd03d7426be9
+
     }
     public class ProductsService : IProductService
     {
@@ -49,7 +49,7 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
         }
-<<<<<<< HEAD
+
         public void AddOpinion(OpininDto dto, int idProduct)
         {
             var iduser = (int)_userContextService.GetUserId;
@@ -75,7 +75,7 @@ namespace HotChocolateAPI.Services
                 _context.SaveChanges();
             }
         }
-=======
+
         public void DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);

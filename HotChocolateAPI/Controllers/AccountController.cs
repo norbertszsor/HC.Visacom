@@ -56,7 +56,7 @@ namespace HotChocolateAPI.Controllers
 
             return Ok();
         }
-        [HttpGet("manage")]
+        [HttpGet("manage/getusers")]
         [Authorize(Roles ="Admin")]
         public ActionResult GetUsers()
         {

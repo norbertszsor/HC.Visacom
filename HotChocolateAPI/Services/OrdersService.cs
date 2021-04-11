@@ -49,7 +49,6 @@ namespace HotChocolateAPI.Services
             var listOfOrders = _context
                 .Orders
                 .Include(u => u.Address)
-                
                 .ToList();
 
             if (listOfOrders == null)

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using HotChocolateAPI.Entities;
 
 namespace HotChocolateAPI.Controllers
 {
@@ -22,13 +23,13 @@ namespace HotChocolateAPI.Controllers
         [HttpPost("create")]
         public ActionResult Create([FromBody] CreateOrderDto dto)
         {
-            
+
 
             var result = _ordersSrevice.Create(dto);
 
             return Ok(result);
         }
-<<<<<<< HEAD
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult GetAllOrders()
@@ -36,16 +37,9 @@ namespace HotChocolateAPI.Controllers
             var listOfOrders = _ordersSrevice.GetAll();
 
             return Ok(listOfOrders);
-=======
-        [HttpGet("getall")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult GetUsers()
-        {
-            var listOfUsers = _ordersSrevice.GetAll();
-
-
-            return Ok(listOfUsers);
->>>>>>> 267c76fa9a03754dd615349d1c8c98b318c248e5
         }
+
+          
     }
 }
+

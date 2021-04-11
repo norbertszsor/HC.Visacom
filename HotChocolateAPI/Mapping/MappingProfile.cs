@@ -13,6 +13,7 @@ namespace HotChocolateAPI.Mapping
     {
         public MappingProfile()
         {
+<<<<<<< HEAD
             CreateMap<User, UserList>().ReverseMap();
 
             CreateMap<Order, OrdersList>()
@@ -22,6 +23,10 @@ namespace HotChocolateAPI.Mapping
                 .ForMember(o => o.FirstName, c => c.MapFrom(s => s.User.FirstName))
                 .ForMember(o => o.LastName, c => c.MapFrom(s => s.User.LastName))
                 .ReverseMap();
+=======
+            CreateMap<User, UserList>();
+            CreateMap<Order, OrderListDto>();
+>>>>>>> 267c76fa9a03754dd615349d1c8c98b318c248e5
         }
     }
 }

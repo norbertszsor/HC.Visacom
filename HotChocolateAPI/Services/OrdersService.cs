@@ -17,7 +17,7 @@ namespace HotChocolateAPI.Services
         int Create(CreateOrderDto dto);
         List<Order> GetAll();
     }
-    
+
     public class OrdersService : IOrdersService
     {
         private readonly HotChocolateDbContext _context;

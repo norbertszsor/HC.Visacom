@@ -8,7 +8,6 @@ namespace HotChocolateAPI.Models
 {
     public class ManageAccountDto
     {
-        [Required]
         public bool IsActivated { get; set; }
     }
 }

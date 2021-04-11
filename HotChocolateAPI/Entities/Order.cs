@@ -15,5 +15,6 @@ namespace HotChocolateAPI.Entities
         public DateTime Date { get; set; }
         public string Status { get; set; }
 
+
     }
 }

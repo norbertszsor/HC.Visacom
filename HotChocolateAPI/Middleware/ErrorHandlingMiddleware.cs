@@ -20,10 +20,15 @@ namespace HotChocolateAPI.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(badRequestException.Message);
             }
+            catch(EmptyListException emptyList)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(emptyList.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Somethink went wrong");
+                await context.Response.WriteAsync("Something went wrong");
             }
         }
     }

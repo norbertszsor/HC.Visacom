@@ -45,7 +45,7 @@ namespace HotChocolateAPI.Services
             var list = _context.Users.ToList();
 
             if (list == null)
-                throw new BadRequestException("Empty list of Users");
+                throw new EmptyListException("Empty list of Users");
 
             var result = _mapper.Map<List<UserList>>(list);
 

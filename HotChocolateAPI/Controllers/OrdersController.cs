@@ -21,13 +21,17 @@ namespace HotChocolateAPI.Controllers
             _ordersSrevice = OrdersService;
         }
         [HttpPost("create")]
+        [Authorize]
+        
         public ActionResult Create([FromBody] CreateOrderDto dto)
         {
 
 
-            var result = _ordersSrevice.Create(dto);
+            var list = _ordersSrevice.Create(dto);
 
-            return Ok(result);
+            _ordersSrevice.Create2(list);
+
+            return Ok();
         }
 
         [HttpGet]

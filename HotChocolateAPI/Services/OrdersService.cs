@@ -14,8 +14,9 @@ namespace HotChocolateAPI.Services
     public interface IOrdersService
     {
 
-        int Create(CreateOrderDto dto);
+        List<int> Create(CreateOrderDto dto);
         List<Order> GetAll();
+        void Create2(List<int> list);
     }
 
     public class OrdersService : IOrdersService
@@ -30,20 +31,44 @@ namespace HotChocolateAPI.Services
             _mapper = mapper;
             _userContextService = userContextService;
         }
-        public int Create(CreateOrderDto dto)
+        public List<int> Create(CreateOrderDto dto)
         {
+            if (dto.ProductId == null)
+                throw new EmptyListException("Lista produktów jest pusta");
 
-            var order = _mapper.Map<Order>(dto);    
-           
+            var order = new Order()
+            {
+                
+                UserId = (int)_userContextService.GetUserId,
+                AddressId = dto.AddressId,
+                Date = DateTime.Now.ToShortDateString(),
+                Status = "W trakcie Realizacji",
 
-            order.UserId = (int)_userContextService.GetUserId;
+            };
 
             _context.Orders.Add(order);
-            
+
             _context.SaveChanges();
-             
-            return order.Id;
+
+            var list = dto.ProductId.ToList();
+
+            list.Add(order.Id);
+
+            return list;
         }
+
+        public void Create2(List<int> list)
+        {
+            var orderId = list.Last();
+            list.RemoveAt(list.Count() - 1);
+            foreach (var item in list)
+            {
+                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item });
+            }
+            _context.SaveChanges();
+        }
+
+
         public List<Order> GetAll() // later aligator
         {
             var listOfOrders = _context

@@ -16,8 +16,6 @@ namespace HotChocolateAPI.Services
 
         public void AddOpinion(OpininDto dto, int idProduct);
 
-
-
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
 

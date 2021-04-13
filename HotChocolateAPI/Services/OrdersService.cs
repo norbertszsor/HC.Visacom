@@ -16,7 +16,7 @@ namespace HotChocolateAPI.Services
 
         List<int> Create(CreateOrderDto dto);
         List<Order> GetAll();
-        void Create2(List<int> list);
+        int Create2(List<int> list);
     }
 
     public class OrdersService : IOrdersService
@@ -57,7 +57,7 @@ namespace HotChocolateAPI.Services
             return list;
         }
 
-        public void Create2(List<int> list)
+        public int Create2(List<int> list)
         {
             var orderId = list.Last();
             list.RemoveAt(list.Count() - 1);
@@ -66,6 +66,7 @@ namespace HotChocolateAPI.Services
                 _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item });
             }
             _context.SaveChanges();
+            return orderId;
         }
 
 

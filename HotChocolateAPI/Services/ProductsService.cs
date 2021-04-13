@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HotChocolateAPI.Models.DTO;
+using HotChocolateAPI.Models.ViewModels;
 
 namespace HotChocolateAPI.Services
 {
@@ -18,6 +20,8 @@ namespace HotChocolateAPI.Services
 
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
+        List<CreateProductDto> GetAll();
+        ProductDto Get(int id);
 
     }
     public class ProductsService : IProductService
@@ -99,6 +103,31 @@ namespace HotChocolateAPI.Services
                 
                 _context.SaveChanges();
             }
+        }
+        public List<CreateProductDto> GetAll()
+        {
+            var products = _context.Products.ToList();
+            var list = _mapper.Map<List<CreateProductDto>>(products);
+            return list;
+        }
+        public ProductDto Get(int id)
+        {
+            var products = _context.Opinions.Include(x => x.Product).Include(u=>u.User).Where(x => x.ProductId == id).ToList();
+            if(products == null)
+            {
+                var product = _context.Products.FirstOrDefault(x => x.Id == id);
+                if (product == null)
+                    throw new BadRequestException("Produkt nie istnieje");
+                return _mapper.Map<ProductDto>(product);
+            }
+            var prod = _mapper.Map<ProductDto>(products.First().Product);
+            List<OpinionView> opinions = new List<OpinionView>();
+            foreach (var item in products)
+            {
+                opinions.Add(_mapper.Map<OpinionView>(item));
+            }
+            prod.Opinions = opinions;
+            return prod;
         }
     }
 }

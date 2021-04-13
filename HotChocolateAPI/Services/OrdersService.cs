@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using HotChocolateAPI.Exceptions;
-using HotChocolateAPI.Models.ViewModels;
 using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Services
@@ -17,7 +16,7 @@ namespace HotChocolateAPI.Services
 
         int Create(CreateOrderDto dto);
         List<Order> GetAll();
-        Order GetOrder(int id);
+        OrderDto GetOrder(int id);
 
     }
 
@@ -81,20 +80,26 @@ namespace HotChocolateAPI.Services
             return listOfOrders;
 
         }
-        public Order GetOrder(int id)
+        public OrderDto GetOrder(int id)
         {
             var order = _context.ProductsForOrders
-                .Include(o => o.Order)
-                .Include(p=>p.Product)
+                .Include(o => o.Order).Include(p => p.Product).Include(u => u.Order.User).Include(a => a.Order.Address)
                 .Where(x => x.OrderId == id).ToList();
-
 
             if(order == null)
                 throw new EmptyListException("Te zamówienie nie istnieje");
-
-            var mappedOrder = _mapper.Map<Order>(order);
-
-            return mappedOrder;
+            var orderdto = new OrderDto();
+            orderdto.OrderId = id;
+            orderdto.User = _mapper.Map<UserDto>(order.First().Order.User);
+            orderdto.Address = order.First().Order.Address;
+            orderdto.TotalCost = order.First().Order.TotalCost;
+            List<CreateProductDto> Products = new List<CreateProductDto>();
+            foreach (var item in order)
+            {
+                Products.Add(_mapper.Map<CreateProductDto>(item.Product));
+            }
+            orderdto.Products = Products;
+            return orderdto;
         }
 
     }

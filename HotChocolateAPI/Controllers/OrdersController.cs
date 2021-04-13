@@ -37,7 +37,7 @@ namespace HotChocolateAPI.Controllers
         public ActionResult GetOrderById([FromRoute] int id)
         {
             var order = _ordersSrevice.GetOrder(id);
-            return Ok();
+            return Ok(order);
         }
 
 

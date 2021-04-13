@@ -15,9 +15,8 @@ namespace HotChocolateAPI.Services
     public interface IOrdersService
     {
 
-        List<int> Create(CreateOrderDto dto);
+        int Create(CreateOrderDto dto);
         List<Order> GetAll();
-        int Create2(List<int> list);
         Order GetOrder(int id);
 
     }
@@ -34,9 +33,11 @@ namespace HotChocolateAPI.Services
             _mapper = mapper;
             _userContextService = userContextService;
         }
-        public List<int> Create(CreateOrderDto dto)
+        public int Create(CreateOrderDto dto)
         {
-            if (dto.ProductId == null)
+            var products = _context.Products.Where(x => dto.ProductId.Contains(x.Id));
+
+            if (products == null)
                 throw new EmptyListException("Lista produktów jest pusta");
 
             var order = new Order()
@@ -45,33 +46,24 @@ namespace HotChocolateAPI.Services
                 AddressId = dto.AddressId,
                 Date = DateTime.Now.ToShortDateString(),
                 Status = "W trakcie Realizacji",
-
             };
 
             _context.Orders.Add(order);
-
             _context.SaveChanges();
 
-            var list = dto.ProductId.ToList();
 
-            list.Add(order.Id);
-
-            return list;
-        }
-
-        public int Create2(List<int> list)
-        {
-            var orderId = list.Last();
-            list.RemoveAt(list.Count() - 1);
-            foreach (var item in list)
+            decimal suma = 0;
+            foreach (var item in products)
             {
-                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item  });
+                suma += item.Price;
+                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = order.Id, ProductId = item.Id });
             }
+            order.TotalCost = suma;
 
             _context.SaveChanges();
-            return orderId;
-        }
 
+            return order.Id;
+        }
 
         public List<Order> GetAll() // later aligator
         {

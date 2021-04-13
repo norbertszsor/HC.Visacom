@@ -27,9 +27,8 @@ namespace HotChocolateAPI.Controllers
         {
 
 
-            var list = _ordersSrevice.Create(dto);
+            var id = _ordersSrevice.Create(dto);
 
-             var id = _ordersSrevice.Create2(list);
 
             return Created($"/api/orders/{id}", null);
         }

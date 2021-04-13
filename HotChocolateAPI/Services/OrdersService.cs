@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using HotChocolateAPI.Exceptions;
 using HotChocolateAPI.Models.ViewModels;
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Services
 {
@@ -17,6 +18,8 @@ namespace HotChocolateAPI.Services
         List<int> Create(CreateOrderDto dto);
         List<Order> GetAll();
         int Create2(List<int> list);
+        Order GetOrder(int id);
+
     }
 
     public class OrdersService : IOrdersService
@@ -38,7 +41,6 @@ namespace HotChocolateAPI.Services
 
             var order = new Order()
             {
-                
                 UserId = (int)_userContextService.GetUserId,
                 AddressId = dto.AddressId,
                 Date = DateTime.Now.ToShortDateString(),
@@ -85,6 +87,21 @@ namespace HotChocolateAPI.Services
 
             return listOfOrders;
 
+        }
+        public Order GetOrder(int id)
+        {
+            var order = _context.ProductsForOrders
+                .Include(o => o.Order)
+                .Include(p=>p.Product)
+                .Where(x => x.OrderId == id).ToList();
+
+
+            if(order == null)
+                throw new EmptyListException("Te zamówienie nie istnieje");
+
+            var mappedOrder = _mapper.Map<Order>(order);
+
+            return mappedOrder;
         }
 
     }

@@ -34,6 +34,13 @@ namespace HotChocolateAPI.Controllers
             return Created($"/api/orders/{id}", null);
         }
         
+        [HttpGet("{id}")]
+        public ActionResult GetOrderById([FromRoute] int id)
+        {
+            var order = _ordersSrevice.GetOrder(id);
+            return Ok();
+        }
+
 
         [HttpGet]
         [Authorize(Roles ="Admin")]

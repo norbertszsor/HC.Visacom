@@ -14,6 +14,8 @@ namespace HotChocolateAPI.Entities
         public virtual Address Address { get; set; }
         public string Date { get; set; }
         public string Status { get; set; }
+        public decimal TotalCost { get; set; }
+
 
     }
 }

@@ -21,17 +21,29 @@ namespace HotChocolateAPI.Controllers
             _ordersSrevice = OrdersService;
         }
         [HttpPost("create")]
+        [Authorize]
+        
         public ActionResult Create([FromBody] CreateOrderDto dto)
         {
 
 
-            var result = _ordersSrevice.Create(dto);
+            var list = _ordersSrevice.Create(dto);
 
-            return Ok(result);
+             var id = _ordersSrevice.Create2(list);
+
+            return Created($"/api/orders/{id}", null);
+        }
+        
+        [HttpGet("{id}")]
+        public ActionResult GetOrderById([FromRoute] int id)
+        {
+            var order = _ordersSrevice.GetOrder(id);
+            return Ok();
         }
 
+
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles ="Admin")]
         public ActionResult GetAllOrders()
         {
             var listOfOrders = _ordersSrevice.GetAll();

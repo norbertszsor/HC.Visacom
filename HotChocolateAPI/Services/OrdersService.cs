@@ -8,14 +8,18 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using HotChocolateAPI.Exceptions;
 using HotChocolateAPI.Models.ViewModels;
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Services
 {
     public interface IOrdersService
     {
 
-        int Create(CreateOrderDto dto);
+        List<int> Create(CreateOrderDto dto);
         List<Order> GetAll();
+        int Create2(List<int> list);
+        Order GetOrder(int id);
+
     }
 
     public class OrdersService : IOrdersService
@@ -30,20 +34,44 @@ namespace HotChocolateAPI.Services
             _mapper = mapper;
             _userContextService = userContextService;
         }
-        public int Create(CreateOrderDto dto)
+        public List<int> Create(CreateOrderDto dto)
         {
+            if (dto.ProductId == null)
+                throw new EmptyListException("Lista produktów jest pusta");
 
-            var order = _mapper.Map<Order>(dto);    
-           
+            var order = new Order()
+            {
+                UserId = (int)_userContextService.GetUserId,
+                AddressId = dto.AddressId,
+                Date = DateTime.Now.ToShortDateString(),
+                Status = "W trakcie Realizacji",
 
-            order.UserId = (int)_userContextService.GetUserId;
+            };
 
             _context.Orders.Add(order);
-            
+
             _context.SaveChanges();
-             
-            return order.Id;
+
+            var list = dto.ProductId.ToList();
+
+            list.Add(order.Id);
+
+            return list;
         }
+
+        public int Create2(List<int> list)
+        {
+            var orderId = list.Last();
+            list.RemoveAt(list.Count() - 1);
+            foreach (var item in list)
+            {
+                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item });
+            }
+            _context.SaveChanges();
+            return orderId;
+        }
+
+
         public List<Order> GetAll() // later aligator
         {
             var listOfOrders = _context
@@ -59,6 +87,21 @@ namespace HotChocolateAPI.Services
 
             return listOfOrders;
 
+        }
+        public Order GetOrder(int id)
+        {
+            var order = _context.ProductsForOrders
+                .Include(o => o.Order)
+                .Include(p=>p.Product)
+                .Where(x => x.OrderId == id).ToList();
+
+
+            if(order == null)
+                throw new EmptyListException("Te zamówienie nie istnieje");
+
+            var mappedOrder = _mapper.Map<Order>(order);
+
+            return mappedOrder;
         }
 
     }

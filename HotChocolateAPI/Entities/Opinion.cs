@@ -9,6 +9,7 @@ namespace HotChocolateAPI.Entities
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
+        public Product Product { get; set; }
         public int Stars { get; set; }
         public string DescriptionOfOpinion { get; set; }
         public string Date { get; set; }

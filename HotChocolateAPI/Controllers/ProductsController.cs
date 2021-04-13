@@ -29,6 +29,7 @@ namespace HotChocolateAPI.Controllers
         }
       
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteProduct([FromRoute] int id)
         {
             _productService.DeleteProduct(id);
@@ -36,11 +37,26 @@ namespace HotChocolateAPI.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
         {
             _productService.UpdateProduct(id, dto);
 
             return NoContent();
+        }
+        [HttpGet]
+        public ActionResult GetAll()
+        {
+            var list = _productService.GetAll();
+
+            return Ok(list);
+        }
+        [HttpGet("{id}")]
+        public ActionResult Get([FromRoute] int id)
+        {
+            var product = _productService.Get(id);
+
+            return Ok(product);
         }
 
         [HttpPost("addopinion/{id}")] 
@@ -50,5 +66,6 @@ namespace HotChocolateAPI.Controllers
             _productService.AddOpinion(dto, id);
             return Ok();
         }
+
     }
 }

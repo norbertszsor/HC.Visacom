@@ -30,6 +30,11 @@ namespace HotChocolateAPI.Middleware
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(prod.Message);
             }
+            catch (NoAccess prod)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(prod.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;

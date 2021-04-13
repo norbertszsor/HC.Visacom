@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using HotChocolateAPI.Exceptions;
 using HotChocolateAPI.Models.DTO;
+using HotChocolateAPI.Models.ViewModels;
 
 namespace HotChocolateAPI.Services
 {
@@ -15,7 +16,7 @@ namespace HotChocolateAPI.Services
     {
 
         int Create(CreateOrderDto dto);
-        List<Order> GetAll();
+        List<OrderView> GetAll();
         OrderDto GetOrder(int id);
 
     }
@@ -64,30 +65,25 @@ namespace HotChocolateAPI.Services
             return order.Id;
         }
 
-        public List<Order> GetAll() // later aligator
+        public List<OrderView> GetAll() // later aligator
         {
-            var listOfOrders = _context
-                .Orders
-                .Include(u => u.Address)
-                .ToList();
-
-            if (listOfOrders == null)
-                throw new EmptyListException("No orders yet");
-
-           
-            
-
-            return listOfOrders;
+            var listOfOrders = _context.Orders.ToList();
+            var list = _mapper.Map<List<OrderView>>(listOfOrders);
+            return list;
 
         }
         public OrderDto GetOrder(int id)
         {
+            var userid = _userContextService.GetUserId;
+            var userrole = _userContextService.User.IsInRole("Admin");
+
             var order = _context.ProductsForOrders
                 .Include(o => o.Order).Include(p => p.Product).Include(u => u.Order.User).Include(a => a.Order.Address)
                 .Where(x => x.OrderId == id).ToList();
-
             if(order == null)
                 throw new EmptyListException("Te zamówienie nie istnieje");
+            if (!(order.First().Order.UserId == userid || userrole))
+                throw new NoAccess("Brak dostępu do zasobu");
             var orderdto = new OrderDto();
             orderdto.OrderId = id;
             orderdto.User = _mapper.Map<UserDto>(order.First().Order.User);

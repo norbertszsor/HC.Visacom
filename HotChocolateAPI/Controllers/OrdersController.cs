@@ -34,6 +34,7 @@ namespace HotChocolateAPI.Controllers
         }
         
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult GetOrderById([FromRoute] int id)
         {
             var order = _ordersSrevice.GetOrder(id);

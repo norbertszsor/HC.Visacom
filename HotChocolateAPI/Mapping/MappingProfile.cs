@@ -2,7 +2,6 @@
 using HotChocolateAPI.Entities;
 using HotChocolateAPI.Models;
 using HotChocolateAPI.Models.DTO;
-using HotChocolateAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +15,8 @@ namespace HotChocolateAPI.Mapping
         {
 
             CreateMap<User, UserList>().ReverseMap();
-
+            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();
-
-            CreateMap<ProductsForOrder, OrderDto>()
-                .ForMember(x => x.Products, s => s.MapFrom(o => o.Product))
-                .ForMember(x => x.UserId, s => s.MapFrom(o => o.Order.UserId));
-            
-
-
 
         }
     }

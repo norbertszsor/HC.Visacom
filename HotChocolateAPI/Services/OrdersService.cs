@@ -65,8 +65,9 @@ namespace HotChocolateAPI.Services
             list.RemoveAt(list.Count() - 1);
             foreach (var item in list)
             {
-                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item });
+                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = orderId, ProductId = item  });
             }
+
             _context.SaveChanges();
             return orderId;
         }
@@ -94,7 +95,6 @@ namespace HotChocolateAPI.Services
                 .Include(o => o.Order)
                 .Include(p=>p.Product)
                 .Where(x => x.OrderId == id).ToList();
-
 
             if(order == null)
                 throw new EmptyListException("Te zamówienie nie istnieje");

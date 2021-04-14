@@ -74,7 +74,7 @@ namespace HotChocolateAPI.Controllers
             return Ok();
         }
         [HttpGet("userdetails/{id}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         public ActionResult GetUser([FromRoute]int id)
         {
             var user = _accountService.GetUser(id);

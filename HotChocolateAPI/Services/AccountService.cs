@@ -159,6 +159,11 @@ namespace HotChocolateAPI.Services
             
             var user = _context.Users.Include(u=>u.Address).FirstOrDefault(x => x.Id == id);
 
+            var userRole = _userContextService.User.IsInRole("Admin");
+
+            if (!userRole)
+                throw new NoAccess("Nie masz dostępu!");
+
             if (user == null)
                 throw new BadRequestException($"Użytkownik o id: {id} nie istnieje");
             

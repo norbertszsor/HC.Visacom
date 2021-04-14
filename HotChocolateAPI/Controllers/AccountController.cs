@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HotChocolateAPI.Models;
 using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using HotChocolateAPI.Models.ViewModels;
 
 namespace HotChocolateAPI.Controllers
 {
@@ -72,6 +73,13 @@ namespace HotChocolateAPI.Controllers
             _accountService.ChangePassword(dto);
             return Ok();
         }
+        [HttpGet("userdetails/{id}")]
+        [Authorize(Roles ="Admin")]
+        public ActionResult GetUser([FromRoute]int id)
+        {
+            var user = _accountService.GetUser(id);
 
+            return Ok(user);
+        }
     }
 }

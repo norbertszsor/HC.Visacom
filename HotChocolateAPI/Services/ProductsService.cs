@@ -56,9 +56,12 @@ namespace HotChocolateAPI.Services
         {
             var iduser = (int)_userContextService.GetUserId;
             var orders = _context.ProductsForOrders.Include(x => x.Order).FirstOrDefault(x => x.Order.UserId == iduser && x.ProductId == idProduct);
+
             if (orders == null)
                 throw new ProductAlreadyExistException("Nie możesz dodać opinni dla tego produktu bez zakupu");
+
             var opinion = _context.Opinions.FirstOrDefault(x => x.UserId == iduser && x.ProductId == idProduct);
+
             if (opinion == null)
             {
                 opinion = new Opinion();
@@ -122,6 +125,7 @@ namespace HotChocolateAPI.Services
             }
             var prod = _mapper.Map<ProductDto>(products.First().Product);
             List<OpinionView> opinions = new List<OpinionView>();
+
             foreach (var item in products)
             {
                 opinions.Add(_mapper.Map<OpinionView>(item));

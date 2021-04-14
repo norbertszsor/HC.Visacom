@@ -18,6 +18,8 @@ namespace HotChocolateAPI.Models.Validators
             RuleFor(x => x.FirstName)
                 .MinimumLength(1)
                 .MaximumLength(35);
+            RuleFor(x => x.PhoneNumber)
+                .Length(8);
             RuleFor(x => x.LastName)
                 .MinimumLength(1)
                 .MaximumLength(35);

@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using HotChocolateAPI.Models.ViewModels;
 
 namespace HotChocolateAPI.Services
 {
@@ -22,7 +23,9 @@ namespace HotChocolateAPI.Services
         string GenerateJwt(LoginDto dto);
         void ChangeActivity(int id, ManageAccountDto dto);
         List<UserList> GetAll();
-        public void ChangePassword(NewPasswordDto dto);
+        void ChangePassword(NewPasswordDto dto);
+
+        UserDetailsView GetUser(int id);
 
 
     }
@@ -63,9 +66,11 @@ namespace HotChocolateAPI.Services
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 RoleId = 1,
-                IsActivated = true
+                IsActivated = true,
+                PhoneNumber = dto.PhoneNumber
                 
             };
+
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
             _context.Users.Add(newUser);
@@ -148,7 +153,18 @@ namespace HotChocolateAPI.Services
             user.PasswordHash = newhashedPassword;
             _context.SaveChanges();
 
+        }
+        public UserDetailsView GetUser(int id)
+        {
+            
+            var user = _context.Users.Include(u=>u.Address).FirstOrDefault(x => x.Id == id);
 
+            if (user == null)
+                throw new BadRequestException($"Użytkownik o id: {id} nie istnieje");
+            
+            var details = _mapper.Map<UserDetailsView>(user);
+
+            return details;
         }
     }
 }

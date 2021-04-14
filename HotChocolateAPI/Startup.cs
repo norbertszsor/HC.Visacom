@@ -21,8 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HotChocolateAPI.Middleware;
 using AutoMapper;
-
-
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI
 {
@@ -77,6 +76,7 @@ namespace HotChocolateAPI
             services.AddScoped<IValidator<OpininDto>, OpinionDtoValidator>();
             services.AddScoped<IValidator<(CreateOrderDto,Order)>, CreateOrderDtoValidator>(); // nie wiem czy w sumie potrzebny, ale niech zostanie.
             services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
+            services.AddScoped<IValidator<UpdateDetailsDto>, UpdateDetailsValidator>();
 
 
         }

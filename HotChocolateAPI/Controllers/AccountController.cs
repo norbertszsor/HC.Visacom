@@ -7,6 +7,7 @@ using HotChocolateAPI.Models;
 using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using HotChocolateAPI.Models.ViewModels;
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Controllers
 {
@@ -80,6 +81,15 @@ namespace HotChocolateAPI.Controllers
             var user = _accountService.GetUser(id);
 
             return Ok(user);
+        }
+
+        [HttpPut("EditProfile")]
+        [Authorize]
+        public ActionResult EditDetails([FromBody] UpdateDetailsDto dto)
+        {
+            _accountService.EditDetails(dto);
+
+            return Ok();
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using HotChocolateAPI.Models.ViewModels;
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Services
 {
@@ -24,8 +25,8 @@ namespace HotChocolateAPI.Services
         void ChangeActivity(int id, ManageAccountDto dto);
         List<UserList> GetAll();
         void ChangePassword(NewPasswordDto dto);
-
         UserDetailsView GetUser(int id);
+        void EditDetails(UpdateDetailsDto dto);
 
 
     }
@@ -170,6 +171,27 @@ namespace HotChocolateAPI.Services
             var details = _mapper.Map<UserDetailsView>(user);
 
             return details;
+        }
+
+        public void EditDetails(UpdateDetailsDto dto)
+        {
+            var userId = _userContextService.GetUserId;
+
+            if (userId == null)
+                throw new NoAccess("Musisz się zalogowac by edytować profil");
+
+            var user = _context.Users.Include(x=>x.Address).FirstOrDefault(x => x.Id == userId);
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.PhoneNumber = dto.PhoneNumber;
+            user.Address.Town = dto.Town;
+            user.Address.Street = dto.Street;
+            user.Address.HouseNumber = dto.HouseNumber;
+            user.Address.PostalCode = dto.PostalCode;
+
+            _context.SaveChanges();
+
         }
     }
 }

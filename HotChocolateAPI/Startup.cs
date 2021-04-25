@@ -64,18 +64,22 @@ namespace HotChocolateAPI
             services.AddDbContext<HotChocolateDbContext>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<HotChocolateSeeder>();
+
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IOrdersService, OrdersService>();
             services.AddScoped<IProductService, ProductsService>();
+            services.AddScoped<IFileService, FileService>();
+
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddScoped<IValidator<NewPasswordDto>, NewPasswordDtoValidator>();
             services.AddScoped<IValidator<ManageAccountDto>, ManageAccountDtoValidator>();
             services.AddScoped<IValidator<OrderStatusDto>, OrderStatusDtoValidator>();
             services.AddScoped<IValidator<OpininDto>, OpinionDtoValidator>();
-            services.AddScoped<IValidator<(CreateOrderDto,Order)>, CreateOrderDtoValidator>(); // nie wiem czy w sumie potrzebny, ale niech zostanie.
+            services.AddScoped<IValidator<(CreateOrderDto,Order)>, CreateOrderDtoValidator>();
             services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
             services.AddScoped<IValidator<UpdateDetailsDto>, UpdateDetailsValidator>();
 

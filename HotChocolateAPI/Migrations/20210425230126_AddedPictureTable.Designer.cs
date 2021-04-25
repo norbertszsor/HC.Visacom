@@ -4,14 +4,16 @@ using HotChocolateAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotChocolateAPI.Migrations
 {
     [DbContext(typeof(HotChocolateDbContext))]
-    partial class HotChocolateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425230126_AddedPictureTable")]
+    partial class AddedPictureTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,8 +138,6 @@ namespace HotChocolateAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Pictures");
                 });
@@ -286,15 +286,6 @@ namespace HotChocolateAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotChocolateAPI.Entities.Pictures", b =>
-                {
-                    b.HasOne("HotChocolateAPI.Entities.Product", null)
-                        .WithMany("Pictures")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HotChocolateAPI.Entities.User", b =>
                 {
                     b.HasOne("HotChocolateAPI.Entities.Address", "Address")
@@ -325,11 +316,6 @@ namespace HotChocolateAPI.Migrations
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.Product", b =>
-                {
-                    b.Navigation("Pictures");
                 });
 #pragma warning restore 612, 618
         }

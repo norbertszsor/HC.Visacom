@@ -55,7 +55,7 @@ namespace HotChocolateAPI.Services
         public void AddOpinion(OpininDto dto, int idProduct)
         {
             var iduser = (int)_userContextService.GetUserId;
-            var orders = _context.ProductsForOrders.Include(x => x.Order).FirstOrDefault(x => x.Order.UserId == iduser && x.ProductId == idProduct);
+            var orders = _context.Orders.Include(x => x.Products).FirstOrDefault(x => x.UserId == iduser && (null != (x.Products.FirstOrDefault(s => s.Id == idProduct))));
 
             if (orders == null)
                 throw new ProductAlreadyExistException("Nie możesz dodać opinni dla tego produktu bez zakupu");

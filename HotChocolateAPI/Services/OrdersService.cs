@@ -39,29 +39,23 @@ namespace HotChocolateAPI.Services
 
             if (products == null)
                 throw new EmptyListException("Lista produktów jest pusta");
-
+            decimal suma = 0;
+            foreach (var item in products)
+            {
+                suma += item.Price;
+            }
             var order = new Order()
             {
                 UserId = (int)_userContextService.GetUserId,
                 AddressId = dto.AddressId,
                 Date = DateTime.Now.ToShortDateString(),
-                Status = "W trakcie Realizacji",
-            };
+                OrderStatusId = 1,
+                Products = products.ToList(),
+                TotalCost = suma
+        };
 
             _context.Orders.Add(order);
             _context.SaveChanges();
-
-
-            decimal suma = 0;
-            foreach (var item in products)
-            {
-                suma += item.Price;
-                _context.ProductsForOrders.Add(new ProductsForOrder { OrderId = order.Id, ProductId = item.Id });
-            }
-            order.TotalCost = suma;
-
-            _context.SaveChanges();
-
             return order.Id;
         }
 
@@ -77,24 +71,19 @@ namespace HotChocolateAPI.Services
             var userid = _userContextService.GetUserId;
             var userrole = _userContextService.User.IsInRole("Admin");
 
-            var order = _context.ProductsForOrders
-                .Include(o => o.Order).Include(p => p.Product).Include(u => u.Order.User).Include(a => a.Order.Address)
-                .Where(x => x.OrderId == id).ToList();
+            var order = _context.Orders
+                .Include(p => p.Products).Include(u => u.User).Include(a => a.Address)
+                .FirstOrDefault(x => x.Id == id);
             if(order == null)
                 throw new EmptyListException("Te zamówienie nie istnieje");
-            if (!(order.First().Order.UserId == userid || userrole))
+            if (!(order.UserId == userid || userrole))
                 throw new NoAccess("Brak dostępu do zasobu");
             var orderdto = new OrderDto();
             orderdto.OrderId = id;
-            orderdto.User = _mapper.Map<UserDto>(order.First().Order.User);
-            orderdto.Address = order.First().Order.Address;
-            orderdto.TotalCost = order.First().Order.TotalCost;
-            List<CreateProductDto> Products = new List<CreateProductDto>();
-            foreach (var item in order)
-            {
-                Products.Add(_mapper.Map<CreateProductDto>(item.Product));
-            }
-            orderdto.Products = Products;
+            orderdto.User = _mapper.Map<UserDto>(order.User);
+            orderdto.Address = order.Address;
+            orderdto.TotalCost = order.TotalCost;
+            orderdto.Products = _mapper.Map<List<CreateProductDto>>(order.Products);
             return orderdto;
         }
 

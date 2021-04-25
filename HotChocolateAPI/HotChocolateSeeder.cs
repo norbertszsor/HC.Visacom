@@ -18,28 +18,41 @@ namespace HotChocolateAPI
         }
         public void Seed()
         {
-            
-            if(_dbContext.Database.CanConnect())
+
+            if (_dbContext.Database.CanConnect())
             {
                 if (!_dbContext.Roles.Any())
                 {
                     var roles = GetRoles();
-                    _dbContext.Roles.AddRange(roles);
-                    _dbContext.SaveChanges();
+                    foreach (var item in roles)
+                    {
+                        _dbContext.Add(item);
+                        _dbContext.SaveChanges();
+                    }
                 }
 
                 var user = _dbContext.Users.FirstOrDefault(x => x.Email == "admin@gmail.com");
                 if (user == null)
                 {
-
                     var newAdmin = CreateAdmin();
-                    
-
-                    _dbContext.Users.AddRange(newAdmin);
-
+                    _dbContext.Users.Add(newAdmin);
                     _dbContext.SaveChanges();
                 }
-               
+                if (!_dbContext.Products.Any())
+                {
+                    var products = GetProducts();
+                    _dbContext.AddRange(products);
+                    _dbContext.SaveChanges();
+                }
+                if (!_dbContext.OrderStatuses.Any())
+                {
+                    var statuses = GetStatuses();
+                    foreach (var item in statuses)
+                    {
+                        _dbContext.Add(item);
+                        _dbContext.SaveChanges();
+                    }
+                }
             }
         }
         private IEnumerable<Role> GetRoles()
@@ -80,6 +93,57 @@ namespace HotChocolateAPI
 
             return newAdmin;
         }
+        private List<Product> GetProducts()
+        {
+            var products = new List<Product>()
+            {
+                new Product()
+                {
+                    Name = "Kwiatek",
+                    Price = 12,
+                    Description = "Tulipan jakiś tam"
+                },
+                new Product()
+                {
+                    Name = "Doniczka",
+                    Price = 8,
+                    Description = "Plastikowa"
+                },
+                new Product()
+                {
+                    Name = "Nawóz",
+                    Price = 33,
+                    Description = "Saletra"
+                }
+            };
+            return products;
+        }
+        private List<OrderStatus> GetStatuses()
+        {
+            var roles = new List<OrderStatus>()
+            {
+                new OrderStatus()
+                {
+                    Name="W trakcie realizacji"
+                },
+                new OrderStatus()
+                {
+                    Name="Czeka na nadanie"
+                },
+                new OrderStatus()
+                {
+                    Name="Przekazane kurierowi"
+                },
+                new OrderStatus()
+                {
+                    Name="Zakończone"
+                },
+                new OrderStatus()
+                {
+                    Name="Anulowano"
+                }
+            };
+            return roles;
+        }
     }
-   
 }

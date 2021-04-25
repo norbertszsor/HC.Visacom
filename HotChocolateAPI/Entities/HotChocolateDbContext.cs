@@ -16,7 +16,7 @@ namespace HotChocolateAPI.Entities
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
-        public DbSet<ProductsForOrder> ProductsForOrders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
 
 
 
@@ -42,6 +42,9 @@ namespace HotChocolateAPI.Entities
                 .Property(n => n.Name)
                 .IsRequired()
                 .HasMaxLength(20);
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.Products)
+                .WithMany(x => x.Orders);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -13,9 +13,9 @@ namespace HotChocolateAPI.Entities
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public string Date { get; set; }
-        public string Status { get; set; }
+        public int? OrderStatusId { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public decimal TotalCost { get; set; }
-
-
+        public List<Product> Products { get; set; }
     }
 }

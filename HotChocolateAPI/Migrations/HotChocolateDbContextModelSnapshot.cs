@@ -87,8 +87,8 @@ namespace HotChocolateAPI.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("OrderStatusId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
@@ -100,9 +100,26 @@ namespace HotChocolateAPI.Migrations
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("OrderStatusId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("HotChocolateAPI.Entities.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("HotChocolateAPI.Entities.Product", b =>
@@ -124,28 +141,6 @@ namespace HotChocolateAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.ProductsForOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductsForOrders");
                 });
 
             modelBuilder.Entity("HotChocolateAPI.Entities.Role", b =>
@@ -212,6 +207,21 @@ namespace HotChocolateAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<int>("OrdersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("HotChocolateAPI.Entities.Opinion", b =>
                 {
                     b.HasOne("HotChocolateAPI.Entities.Product", "Product")
@@ -239,6 +249,10 @@ namespace HotChocolateAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotChocolateAPI.Entities.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId");
+
                     b.HasOne("HotChocolateAPI.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -247,26 +261,9 @@ namespace HotChocolateAPI.Migrations
 
                     b.Navigation("Address");
 
+                    b.Navigation("OrderStatus");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.ProductsForOrder", b =>
-                {
-                    b.HasOne("HotChocolateAPI.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotChocolateAPI.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("HotChocolateAPI.Entities.User", b =>
@@ -284,6 +281,21 @@ namespace HotChocolateAPI.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("HotChocolateAPI.Entities.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotChocolateAPI.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

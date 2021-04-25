@@ -12,29 +12,17 @@ namespace HotChocolateAPI.Models.Validators
     {
         public UpdateDetailsValidator(HotChocolateDbContext context)
         {
+
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .MaximumLength(35);
+                .MinimumLength(2)
+                .MaximumLength(57); // według wujka google
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .MaximumLength(50);
-            RuleFor(x => x.Town)
-                .NotEmpty()
-                .MaximumLength(50);
+                .MinimumLength(2)
+                .MaximumLength(81); // według wujka google
+            RuleFor(x => x.PhoneNumber)
+                .Length(9); //BO JESTESMY W POLSCE 
 
-            RuleFor(x => x.Street)
-                .NotEmpty()
-                .MaximumLength(50);
-            RuleFor(x => x.HouseNumber)
-                .NotEmpty()
-                .MaximumLength(50);
-            RuleFor(x => x.PostalCode)
-                .NotEmpty()
-                .MaximumLength(8);
 
-                
-                
-                
         }
     }
 }

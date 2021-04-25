@@ -10,6 +10,7 @@ using HotChocolateAPI.Exceptions;
 using HotChocolateAPI.Models.DTO;
 using HotChocolateAPI.Models.ViewModels;
 
+
 namespace HotChocolateAPI.Services
 {
     public interface IOrdersService
@@ -18,6 +19,7 @@ namespace HotChocolateAPI.Services
         int Create(CreateOrderDto dto);
         List<OrderView> GetAll();
         OrderDto GetOrder(int id);
+        void ChangeStatusForOrder(int id, OrderStatusDto dto);
 
     }
 
@@ -85,6 +87,18 @@ namespace HotChocolateAPI.Services
             orderdto.TotalCost = order.TotalCost;
             orderdto.Products = _mapper.Map<List<CreateProductDto>>(order.Products);
             return orderdto;
+        }
+        public void ChangeStatusForOrder(int id, OrderStatusDto statusDto)
+        {
+
+            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
+            if (order == null)
+                throw new EmptyListException($"Zamówienie od id:{id} nie istnieje");
+
+            order.OrderStatusId = statusDto.StatusId;
+
+            _context.SaveChanges();
+
         }
 
     }

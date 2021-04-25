@@ -73,6 +73,7 @@ namespace HotChocolateAPI
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddScoped<IValidator<NewPasswordDto>, NewPasswordDtoValidator>();
             services.AddScoped<IValidator<ManageAccountDto>, ManageAccountDtoValidator>();
+            services.AddScoped<IValidator<OrderStatusDto>, OrderStatusDtoValidator>();
             services.AddScoped<IValidator<OpininDto>, OpinionDtoValidator>();
             services.AddScoped<IValidator<(CreateOrderDto,Order)>, CreateOrderDtoValidator>(); // nie wiem czy w sumie potrzebny, ale niech zostanie.
             services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();

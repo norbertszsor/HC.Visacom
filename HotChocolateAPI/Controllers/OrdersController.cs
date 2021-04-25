@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using HotChocolateAPI.Entities;
+using HotChocolateAPI.Models.DTO;
 
 namespace HotChocolateAPI.Controllers
 {
@@ -31,7 +32,7 @@ namespace HotChocolateAPI.Controllers
 
             return Created($"/api/orders/{id}", null);
         }
-        
+
         [HttpGet("{id}")]
         [Authorize]
         public ActionResult GetOrderById([FromRoute] int id)
@@ -42,12 +43,20 @@ namespace HotChocolateAPI.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetAllOrders()
         {
             var listOfOrders = _ordersSrevice.GetAll();
 
             return Ok(listOfOrders);
+        }
+        [HttpPut("updateStatus/{id}")]
+        [Authorize(Roles = "Admin,Warehouseman")]
+        public ActionResult ChangeStatus([FromRoute]int id,[FromBody]OrderStatusDto dto)
+        {
+            _ordersSrevice.ChangeStatusForOrder(id,dto);
+
+            return NoContent();
         }
 
           

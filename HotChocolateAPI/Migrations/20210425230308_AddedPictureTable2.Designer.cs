@@ -4,14 +4,16 @@ using HotChocolateAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotChocolateAPI.Migrations
 {
     [DbContext(typeof(HotChocolateDbContext))]
-    partial class HotChocolateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425230308_AddedPictureTable2")]
+    partial class AddedPictureTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,12 +40,7 @@ namespace HotChocolateAPI.Migrations
                     b.Property<string>("Town")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
                 });
@@ -192,6 +189,9 @@ namespace HotChocolateAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(35)
@@ -222,6 +222,8 @@ namespace HotChocolateAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
@@ -240,13 +242,6 @@ namespace HotChocolateAPI.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.Address", b =>
-                {
-                    b.HasOne("HotChocolateAPI.Entities.User", null)
-                        .WithMany("Address")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HotChocolateAPI.Entities.Opinion", b =>
@@ -304,11 +299,17 @@ namespace HotChocolateAPI.Migrations
 
             modelBuilder.Entity("HotChocolateAPI.Entities.User", b =>
                 {
+                    b.HasOne("HotChocolateAPI.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("HotChocolateAPI.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Address");
 
                     b.Navigation("Role");
                 });
@@ -331,11 +332,6 @@ namespace HotChocolateAPI.Migrations
             modelBuilder.Entity("HotChocolateAPI.Entities.Product", b =>
                 {
                     b.Navigation("Pictures");
-                });
-
-            modelBuilder.Entity("HotChocolateAPI.Entities.User", b =>
-                {
-                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

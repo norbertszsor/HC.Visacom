@@ -180,15 +180,14 @@ namespace HotChocolateAPI.Services
             if (userId == null)
                 throw new NoAccess("Musisz się zalogowac by edytować profil");
 
-            var user = _context.Users.Include(x=>x.Address).FirstOrDefault(x => x.Id == userId);
-
-            user.FirstName = dto.FirstName;
-            user.LastName = dto.LastName;
-            user.PhoneNumber = dto.PhoneNumber;
-            user.Address.Town = dto.Town;
-            user.Address.Street = dto.Street;
-            user.Address.HouseNumber = dto.HouseNumber;
-            user.Address.PostalCode = dto.PostalCode;
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            if(dto.FirstName!=null)
+                user.FirstName = dto.FirstName;
+            if(dto.LastName!=null)
+                user.LastName = dto.LastName;
+            if(dto.PhoneNumber!=null)
+                user.PhoneNumber = dto.PhoneNumber;
+            
 
             _context.SaveChanges();
 

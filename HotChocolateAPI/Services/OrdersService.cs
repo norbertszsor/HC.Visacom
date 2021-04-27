@@ -71,21 +71,25 @@ namespace HotChocolateAPI.Services
         public OrderDto GetOrder(int id)
         {
             var userid = _userContextService.GetUserId;
+            
             var userrole = _userContextService.User.IsInRole("Admin");
 
             var order = _context.Orders
                 .Include(p => p.Products).Include(u => u.User).Include(a => a.Address)
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(x => x.Id == id );
+
             if(order == null)
                 throw new EmptyListException("Te zamówienie nie istnieje");
             if (!(order.UserId == userid || userrole))
                 throw new NoAccess("Brak dostępu do zasobu");
+
             var orderdto = new OrderDto();
             orderdto.OrderId = id;
             orderdto.User = _mapper.Map<UserDto>(order.User);
             orderdto.Address = order.Address;
             orderdto.TotalCost = order.TotalCost;
             orderdto.Products = _mapper.Map<List<CreateProductDto>>(order.Products);
+
             return orderdto;
         }
         public void ChangeStatusForOrder(int id, OrderStatusDto statusDto)

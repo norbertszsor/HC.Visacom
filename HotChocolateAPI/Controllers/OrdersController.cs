@@ -17,9 +17,12 @@ namespace HotChocolateAPI.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrdersService _ordersSrevice;
+      
+
         public OrdersController(IOrdersService OrdersService)
         {
             _ordersSrevice = OrdersService;
+            
         }
         [HttpPost("create")]
         [Authorize]
@@ -28,7 +31,6 @@ namespace HotChocolateAPI.Controllers
 
 
             var id = _ordersSrevice.Create(dto);
-
 
             return Created($"/api/orders/{id}", null);
         }

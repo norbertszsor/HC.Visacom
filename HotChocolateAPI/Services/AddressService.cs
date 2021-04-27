@@ -51,6 +51,7 @@ namespace HotChocolateAPI.Services
         {
             var userId = _userContextService.GetUserId;
             var addresses = _context.Users.Include(s => s.Address).FirstOrDefault(x => x.Id == userId);
+
             if (!addresses.Address.Any())
                 throw new EmptyListException("Nie masz zapisanych adresów");
             return addresses.Address.ToList();

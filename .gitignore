@@ -84,6 +84,7 @@ StyleCopReport.xml
 *.tli
 *.tlh
 *.tmp
+*.cache
 *.tmp_proj
 *_wpftmp.csproj
 *.log
@@ -441,3 +442,7 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+*.suo
+*.user
+
+

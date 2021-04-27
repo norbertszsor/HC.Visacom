@@ -34,5 +34,6 @@ namespace HotChocolateAPI.Controllers
             var addresses = _addressService.GetMyAddresses();
             return Ok(addresses);
         }
+        
     }
 }

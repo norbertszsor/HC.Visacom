@@ -60,6 +60,15 @@ namespace HotChocolateAPI
             });
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddSwaggerGen();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", builder =>
+                {
+                    builder.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowAnyOrigin();
+                });
+            });
             services.AddControllers().AddFluentValidation(); ;
             services.AddDbContext<HotChocolateDbContext>();
             services.AddScoped<ErrorHandlingMiddleware>();

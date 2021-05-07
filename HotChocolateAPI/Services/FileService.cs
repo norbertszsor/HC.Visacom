@@ -29,11 +29,10 @@ namespace HotChocolateAPI.Services
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == dto.ProductId);
             if (product == null)
-                throw new EmptyListException($"Product o  id:{dto.ProductId} nie istnieje");
+                throw new EmptyListException($"Product o id:{dto.ProductId} nie istnieje");
 
             var picture = _mapper.Map<Pictures>(dto);
 
-            
             _context.Pictures.Add(picture);
             product.Pictures.Add(picture);
 

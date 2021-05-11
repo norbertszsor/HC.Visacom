@@ -19,6 +19,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pictures\" />
+  </ItemGroup>
+
 
 
 </Project>

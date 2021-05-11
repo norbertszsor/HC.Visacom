@@ -7,12 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using HotChocolateAPI.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace HotChocolateAPI.Services
 {
     public interface IFileService
     {
-        void Add(AddPictureDto dto);
+        bool Add(IFormFile file);
         List<string> GetPictures(int id);
     }
     public class FileService : IFileService
@@ -25,21 +27,20 @@ namespace HotChocolateAPI.Services
             _context = context;
             _mapper = mapper;
         }
-        public void Add(AddPictureDto dto)
+        public bool Add(IFormFile file)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == dto.ProductId);
-            if (product == null)
-                throw new EmptyListException($"Product o id:{dto.ProductId} nie istnieje");
+            if(file !=null && file.Length > 0) { 
+            var rootPath = Directory.GetCurrentDirectory();
+            var fileName = file.FileName;
+            var fullPath = $"{rootPath}/Pictures/{fileName}";
 
-            var picture = _mapper.Map<Pictures>(dto);
-
-            _context.Pictures.Add(picture);
-            product.Pictures.Add(picture);
-
-            _context.SaveChanges();
-            
-          
-
+            using(var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            };
+                return true;
+            }
+            return false;
         }
 
         public List<string> GetPictures(int id)

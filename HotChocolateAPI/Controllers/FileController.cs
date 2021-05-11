@@ -1,6 +1,7 @@
 ﻿using HotChocolateAPI.Models.DTO;
 using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,14 @@ namespace HotChocolateAPI.Controllers
         }
         [HttpPost("add")]
         [Authorize(Roles = "Admin")]
-        public ActionResult AddPicture([FromBody] AddPictureDto dto)
+        public ActionResult AddPicture([FromForm] IFormFile file)
         {
-            _fileService.Add(dto);
-
+            var  result =_fileService.Add(file);
+            if (result)
+            {  
             return Ok();
+            }
+            return BadRequest();
         }
         [HttpGet("{id}")]
         public ActionResult GetPictures([FromRoute] int id)

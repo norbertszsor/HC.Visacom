@@ -31,7 +31,7 @@ namespace HotChocolateAPI.Controllers
             }
             return BadRequest();
         }
-        [HttpGet("{id}")]
+        [HttpGet("{fileName}")]
         public ActionResult GetPictures([FromRoute] string fileName)
         {
             var picture = _fileService.GetPicture(fileName);

@@ -60,6 +60,7 @@ namespace HotChocolateAPI
             });
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddSwaggerGen();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("FrontEndClient", builder =>
@@ -100,6 +101,8 @@ namespace HotChocolateAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, HotChocolateSeeder seeder)
         {
+            
+            app.UseCors("CorsPolicy");
             seeder.Seed();
             if (env.IsDevelopment())
             {
@@ -110,7 +113,7 @@ namespace HotChocolateAPI
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
-
+            
             app.UseSwagger(); //endpointy w swaggerze
             app.UseSwaggerUI(c =>
             {

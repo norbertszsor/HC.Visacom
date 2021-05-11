@@ -15,7 +15,7 @@ namespace HotChocolateAPI.Services
     public interface IFileService
     {
         bool Add(IFormFile file);
-        List<string> GetPictures(int id);
+        string GetPicture(string fileName);
     }
     public class FileService : IFileService
     {
@@ -43,21 +43,15 @@ namespace HotChocolateAPI.Services
             return false;
         }
 
-        public List<string> GetPictures(int id)
+        public string GetPicture(string fileName)
         {
-            var pic = _context.Products.Include(x=>x.Pictures).FirstOrDefault(x => x.Id == id);
-            if (pic == null)
-                throw new EmptyListException($"Product o id:{id} nie istnieje");
-            if (pic.Pictures == null)
-                throw new EmptyListException("Ten produkt nie ma zdjęć");
+            var rootPath = Directory.GetCurrentDirectory();
+            var filePath = $"{rootPath}/Pictures/{fileName}";
+            var fileExists = System.IO.File.Exists(filePath);
+            if (!fileExists)
+                throw new PictureDoesntExistException($"Zdjęcie o nazwie {fileName} nie istnieje");
 
-            List<string> links = new List<string>();
-            foreach (var item in pic.Pictures)
-            {
-                links.Add(item.Link);
-            }
-           
-            return links;
+            return filePath;
         }
     }
 }

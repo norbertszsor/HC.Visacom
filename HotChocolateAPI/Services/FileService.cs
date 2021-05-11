@@ -29,7 +29,11 @@ namespace HotChocolateAPI.Services
         }
         public bool Add(IFormFile file)
         {
-            if(file !=null && file.Length > 0) { 
+            string[] types = { "image/jpg", "image/png" };
+
+            if (file != null && file.Length > 0 && (file.ContentType==types[0] || file.ContentType==types[1]))
+            {
+            
             var rootPath = Directory.GetCurrentDirectory();
             var fileName = file.FileName;
             var fullPath = $"{rootPath}/Pictures/{fileName}";
@@ -37,9 +41,10 @@ namespace HotChocolateAPI.Services
             using(var stream = new FileStream(fullPath, FileMode.Create))
             {
                 file.CopyTo(stream);
-            };
+            };    
                 return true;
             }
+
             return false;
         }
 

@@ -24,7 +24,7 @@ namespace HotChocolateAPI.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult AddPicture([FromForm] IFormFile file)
         {
-            var  result =_fileService.Add(file);
+            var result =_fileService.Add(file);
             if (result)
             {  
             return Ok();

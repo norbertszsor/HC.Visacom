@@ -32,11 +32,11 @@ namespace HotChocolateAPI.Controllers
             return BadRequest();
         }
         [HttpGet("{id}")]
-        public ActionResult GetPictures([FromRoute] int id)
+        public ActionResult GetPictures([FromRoute] string fileName)
         {
-            var pictures = _fileService.GetPictures(id);
+            var picture = _fileService.GetPicture(fileName);
 
-            return Ok(pictures);
+            return Ok(picture);
         }
 
     }

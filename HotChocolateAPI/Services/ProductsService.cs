@@ -116,13 +116,15 @@ namespace HotChocolateAPI.Services
         public ProductDto Get(int id)
         {
             var products = _context.Opinions.Include(x => x.Product).Include(u=>u.User).Where(x => x.ProductId == id).ToList();
-            if(products == null)
+
+            if(products.Count == 0)
             {
                 var product = _context.Products.FirstOrDefault(x => x.Id == id);
                 if (product == null)
                     throw new BadRequestException("Produkt nie istnieje");
                 return _mapper.Map<ProductDto>(product);
             }
+
             var prod = _mapper.Map<ProductDto>(products.First().Product);
             List<OpinionView> opinions = new List<OpinionView>();
 

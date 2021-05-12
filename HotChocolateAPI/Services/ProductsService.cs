@@ -38,6 +38,7 @@ namespace HotChocolateAPI.Services
         }
         public void AddProduct(CreateProductDto dto)
         {
+            
             var productExist = _context.Products.FirstOrDefault(x => x.Name == dto.Name);
             if (productExist != null)
                 throw new ProductAlreadyExistException("Produkt o takiej nazwie już istnieje");
@@ -45,7 +46,8 @@ namespace HotChocolateAPI.Services
                 throw new ProductAlreadyExistException("Cena musi być wieksza od 0");
 
             var product = _mapper.Map<Product>(dto);
-
+            if (product.Amount < 0)
+                product.Amount = 0;
             _context.Products.Add(product);
 
             _context.SaveChanges();
@@ -103,7 +105,9 @@ namespace HotChocolateAPI.Services
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.Price = dto.Price;
-                
+                product.Amount = dto.Amount;
+                if (product.Amount < 0)
+                    product.Amount = 0;
                 _context.SaveChanges();
             }
         }

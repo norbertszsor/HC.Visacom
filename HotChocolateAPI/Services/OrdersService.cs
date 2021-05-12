@@ -119,10 +119,22 @@ namespace HotChocolateAPI.Services
         public void ChangeStatusForOrder(int id, OrderStatusDto statusDto)
         {
 
-            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
+            var order = _context.Orders
+                .Include(x=>x.OrderAmountProducts)
+                .Include(x=>x.Products)
+                .FirstOrDefault(x => x.Id == id);
+
             if (order == null)
                 throw new EmptyListException($"Zamówienie od id:{id} nie istnieje");
-
+            if (order.OrderStatusId == 5)
+                throw new BadRequestException("Nie można zmienić statusu zamówienia");
+            if(statusDto.StatusId==5)
+            {
+                foreach (var item in order.Products)
+                {
+                    item.Amount += order.OrderAmountProducts.FirstOrDefault(x => x.ProductId==item.Id).Amount;
+                }
+            }
             order.OrderStatusId = statusDto.StatusId;
 
             _context.SaveChanges();

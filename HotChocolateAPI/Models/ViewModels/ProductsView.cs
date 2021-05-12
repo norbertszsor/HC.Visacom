@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HotChocolateAPI.Models
+namespace HotChocolateAPI.Models.ViewModels
 {
-    public class CreateProductDto
+    public class ProductsView
     {
-        
+        public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        [MaxLength(200,ErrorMessage ="Opis może zawierać maksymalnie 200 znaków.")]
         public string Description { get; set; }
-
     }
 }

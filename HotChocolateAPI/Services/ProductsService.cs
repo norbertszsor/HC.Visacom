@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Services
 
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
-        List<CreateProductDto> GetAll();
+        List<ProductsView> GetAll();
         ProductDto Get(int id);
 
     }
@@ -107,10 +107,10 @@ namespace HotChocolateAPI.Services
                 _context.SaveChanges();
             }
         }
-        public List<CreateProductDto> GetAll()
+        public List<ProductsView> GetAll()
         {
             var products = _context.Products.ToList();
-            var list = _mapper.Map<List<CreateProductDto>>(products);
+            var list = _mapper.Map<List<ProductsView>>(products);
             return list;
         }
         public ProductDto Get(int id)

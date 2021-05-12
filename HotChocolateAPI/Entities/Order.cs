@@ -18,5 +18,6 @@ namespace HotChocolateAPI.Entities
         public OrderStatus OrderStatus { get; set; }
         public decimal TotalCost { get; set; }
         public List<Product> Products { get; set; }
+        public List<OrderAmountProducts> OrderAmountProducts { get; set; }
     }
 }

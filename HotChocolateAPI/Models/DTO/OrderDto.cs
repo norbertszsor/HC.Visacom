@@ -11,9 +11,11 @@ namespace HotChocolateAPI.Models.DTO
     {
         public int OrderId { get; set; }
         public UserDto User { get; set; }
+        public string Status { get; set; }
         public IEnumerable<CreateProductDto> Products{ get; set; }
         public Address Address { get; set; }
         public decimal TotalCost { get; set; }
+        
 
     }
 }

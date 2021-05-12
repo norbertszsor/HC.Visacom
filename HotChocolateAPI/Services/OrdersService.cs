@@ -91,7 +91,7 @@ namespace HotChocolateAPI.Services
             var userrole = _userContextService.User.IsInRole("Admin");
 
             var order = _context.Orders
-                .Include(p => p.Products).Include(u => u.User).Include(a => a.Address).Include(x => x.OrderAmountProducts)
+                .Include(p => p.Products).Include(u => u.User).Include(a => a.Address).Include(x => x.OrderAmountProducts).Include(x=>x.OrderStatus)
                 .FirstOrDefault(x => x.Id == id );
 
             if (!(order.UserId == userid || userrole))
@@ -113,7 +113,7 @@ namespace HotChocolateAPI.Services
                 ditios.Add(tmp);
             }
             orderdto.Products = ditios;
-
+            orderdto.Status = order.OrderStatus.Name;
             return orderdto;
         }
         public void ChangeStatusForOrder(int id, OrderStatusDto statusDto)
@@ -125,7 +125,7 @@ namespace HotChocolateAPI.Services
                 .FirstOrDefault(x => x.Id == id);
 
             if (order == null)
-                throw new EmptyListException($"Zamówienie od id:{id} nie istnieje");
+                throw new EmptyListException($"Zamówienie o id:{id} nie istnieje");
             if (order.OrderStatusId == 5)
                 throw new BadRequestException("Nie można zmienić statusu zamówienia");
             if(statusDto.StatusId==5)

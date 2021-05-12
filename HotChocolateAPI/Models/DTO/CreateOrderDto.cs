@@ -8,7 +8,7 @@ namespace HotChocolateAPI.Models
 {
     public class CreateOrderDto
     {
-        public IEnumerable<int> ProductId { get; set; }
+        public Dictionary<int, int> ProductId { get; set; }
         public int AddressId { get; set; }
         
     }

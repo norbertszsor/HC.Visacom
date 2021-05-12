@@ -101,19 +101,22 @@ namespace HotChocolateAPI
                 {
                     Name = "Kwiatek",
                     Price = 12,
-                    Description = "Tulipan jakiś tam"
+                    Description = "Tulipan jakiś tam",
+                    Amount = 10
                 },
                 new Product()
                 {
                     Name = "Doniczka",
                     Price = 8,
-                    Description = "Plastikowa"
+                    Description = "Plastikowa",
+                    Amount = 10
                 },
                 new Product()
                 {
                     Name = "Nawóz",
                     Price = 33,
-                    Description = "Saletra"
+                    Description = "Saletra",
+                    Amount = 10
                 }
             };
             return products;

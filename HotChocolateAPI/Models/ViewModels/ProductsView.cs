@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotChocolateAPI.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,6 @@ namespace HotChocolateAPI.Models.ViewModels
         public decimal Price { get; set; }
         public int Amount { get; set; }
         public string Description { get; set; }
-
+        public List<Order>? Orders { get; set; }
     }
 }

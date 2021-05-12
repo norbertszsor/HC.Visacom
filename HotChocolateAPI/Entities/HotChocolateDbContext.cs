@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotChocolateAPI.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateAPI.Entities
@@ -17,7 +18,7 @@ namespace HotChocolateAPI.Entities
         public DbSet<Order> Orders { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
-       
+
 
 
 

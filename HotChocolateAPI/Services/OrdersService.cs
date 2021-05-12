@@ -37,15 +37,26 @@ namespace HotChocolateAPI.Services
         }
         public int Create(CreateOrderDto dto)
         {
-            var products = _context.Products.Where(x => dto.ProductId.Contains(x.Id));
+            var products = _context.Products.Where(x => dto.ProductId.Keys.Contains(x.Id));
 
             if (products == null)
                 throw new EmptyListException("Lista produktów jest pusta");
-            decimal suma = 0;
+
             foreach (var item in products)
             {
-                suma += item.Price;
+                if (item.Amount < dto.ProductId[item.Id])
+                    throw new BadRequestException($"Brak danej ilości produktu {item.Name} w magazynie");
             }
+            decimal suma = 0;
+            var tmp = new List<ProductsView>();
+            foreach (var item in products)
+            {
+                item.Amount -= dto.ProductId[item.Id];
+                suma += dto.ProductId[item.Id] * item.Price;
+                var p = _mapper.Map<ProductsView>(item);
+                p.Amount = dto.ProductId[item.Id];
+            }
+
             var order = new Order()
             {
                 UserId = (int)_userContextService.GetUserId,
@@ -63,7 +74,7 @@ namespace HotChocolateAPI.Services
 
         public List<OrderView> GetAll() // later aligator
         {
-            var listOfOrders = _context.Orders.ToList();
+            var listOfOrders = _context.Orders.Include(x => x.OrderStatus).ToList();
             var list = _mapper.Map<List<OrderView>>(listOfOrders);
             return list;
 

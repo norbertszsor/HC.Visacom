@@ -50,13 +50,13 @@ namespace HotChocolateAPI.Services
         
         public List<UserList> GetAll()
         {
-            var list = _context.Users.ToList();
+            var list = _context.Users.Include(x=>x.Role).ToList();
 
             if (list == null)
                 throw new EmptyListException("Empty list of Users");
 
             var result = _mapper.Map<List<UserList>>(list);
-
+            
             return result;
         }
         public void RegisterUser(RegisterUserDto dto)

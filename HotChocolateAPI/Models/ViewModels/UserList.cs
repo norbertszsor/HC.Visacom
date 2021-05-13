@@ -12,8 +12,9 @@ namespace HotChocolateAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsActivated { get; set; }
-        
+        public string RoleName { get; set; }
 
-       
+
+
     }
 }

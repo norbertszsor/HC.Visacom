@@ -15,7 +15,7 @@ namespace HotChocolateAPI.Mapping
         public MappingProfile()
         {
 
-            CreateMap<User, UserList>().ReverseMap();
+            CreateMap<User, UserList>().ReverseMap().ForMember(o=>o.Role, s=>s.MapFrom(x=>x.RoleName));
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();

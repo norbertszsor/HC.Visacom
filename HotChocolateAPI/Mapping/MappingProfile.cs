@@ -17,12 +17,12 @@ namespace HotChocolateAPI.Mapping
 
             CreateMap<User, UserList>().ReverseMap().ForMember(o=>o.Role, s=>s.MapFrom(x=>x.RoleName));
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, MyAccountDetailsView>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<OrderView, Order>().ReverseMap().ForMember(o => o.Status, s => s.MapFrom(x => x.OrderStatus.Name));
             CreateMap<OpinionView, Opinion>().ReverseMap().ForMember(o => o.UserName, s => s.MapFrom(x => x.User.FirstName));
-            CreateMap<User, UserDetailsView>()
-                .ForMember(x=>x.Address, s=>s.MapFrom(o=>o.Address));
+            CreateMap<User, UserDetailsView>();
             CreateMap<Product, ProductsView>().ReverseMap();
             
 

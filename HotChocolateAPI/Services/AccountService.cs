@@ -27,6 +27,7 @@ namespace HotChocolateAPI.Services
         void ChangePassword(NewPasswordDto dto);
         UserDetailsView GetUser(int id);
         void EditDetails(UpdateDetailsDto dto);
+        MyAccountDetailsView MyAccountDetails();
 
 
     }
@@ -130,12 +131,19 @@ namespace HotChocolateAPI.Services
         }
         public void ChangeActivity(int id, ManageAccountDto dto)
         {
-            var user = _context.Users.Include(x=>x.Role).FirstOrDefault(x => x.Id == id);
+            var user = _context.Users.Include(u=>u.Role).FirstOrDefault(x => x.Id == id);
+            var roles = _context.Roles.ToList();
             if (user == null)
-                throw new BadRequestException("User doesnt exist");
+                throw new BadRequestException($"Użytkownik o id: {id}");
+            if (user.RoleId == 3)
+                throw new BadRequestException("Nie możesz zarządzać tym kontem");
+            if (dto.RoleId > roles.Count || dto.RoleId <= 0)
+                throw new BadRequestException($"Podano niewlaściwe RoleId: {dto.RoleId}");
+            if (dto.RoleId == 3)
+                throw new BadRequestException("Nie możesz nominować nowego admina.");
 
+            user.RoleId = dto.RoleId;
             user.IsActivated = dto.IsActivated;
-
             _context.SaveChanges();
         }
         public void ChangePassword(NewPasswordDto dto)
@@ -167,7 +175,7 @@ namespace HotChocolateAPI.Services
 
             if (user == null)
                 throw new BadRequestException($"Użytkownik o id: {id} nie istnieje");
-            
+    
             var details = _mapper.Map<UserDetailsView>(user);
 
             return details;
@@ -187,10 +195,17 @@ namespace HotChocolateAPI.Services
                 user.LastName = dto.LastName;
             if(dto.PhoneNumber!=null)
                 user.PhoneNumber = dto.PhoneNumber;
-            
+
 
             _context.SaveChanges();
+        }
+        public MyAccountDetailsView MyAccountDetails()
+        {
+            var userId = _userContextService.GetUserId;
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var details = _mapper.Map<MyAccountDetailsView>(user);
 
+            return details;
         }
     }
 }

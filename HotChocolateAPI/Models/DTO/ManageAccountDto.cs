@@ -9,5 +9,7 @@ namespace HotChocolateAPI.Models
     public class ManageAccountDto
     {
         public bool IsActivated { get; set; }
+        public int RoleId { get; set; }
+
     }
 }

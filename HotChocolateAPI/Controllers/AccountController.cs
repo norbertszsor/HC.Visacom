@@ -74,7 +74,7 @@ namespace HotChocolateAPI.Controllers
             _accountService.ChangePassword(dto);
             return Ok();
         }
-        [HttpGet("userdetails/{id}")]
+        [HttpGet("{id}")]
         [Authorize]
         public ActionResult GetUser([FromRoute]int id)
         {
@@ -90,6 +90,14 @@ namespace HotChocolateAPI.Controllers
             _accountService.EditDetails(dto);
 
             return Ok();
+        }
+        [HttpGet("Details")]
+        
+        public ActionResult MyAccountDetails()
+        {
+            var accountDetails = _accountService.MyAccountDetails();
+
+            return Ok(accountDetails);
         }
     }
 }

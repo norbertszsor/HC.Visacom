@@ -49,9 +49,7 @@ namespace HotChocolateAPI.Controllers
         }
 
         [HttpPut("manage/{id}")]
-
         [Authorize(Roles ="Admin")]
-
         public ActionResult ManageAccount([FromRoute] int id,[FromBody] ManageAccountDto dto)
         {
             _accountService.ChangeActivity(id,dto);
@@ -92,7 +90,7 @@ namespace HotChocolateAPI.Controllers
             return Ok();
         }
         [HttpGet("Details")]
-        
+        [Authorize]
         public ActionResult MyAccountDetails()
         {
             var accountDetails = _accountService.MyAccountDetails();

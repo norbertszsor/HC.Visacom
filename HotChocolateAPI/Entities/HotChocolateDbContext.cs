@@ -19,6 +19,8 @@ namespace HotChocolateAPI.Entities
         public DbSet<Opinion> Opinions { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<OrderAmountProducts> OrderAmountProducts { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostParts> PostParts { get; set; }
 
 
 

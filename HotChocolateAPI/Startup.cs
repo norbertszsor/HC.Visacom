@@ -82,6 +82,7 @@ namespace HotChocolateAPI
             services.AddScoped<IProductService, ProductsService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IBlogSerivce, BlogService>();
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 

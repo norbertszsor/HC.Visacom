@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HotChocolateAPI.Entities;
+using HotChocolateAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +13,16 @@ namespace HotChocolateAPI.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        
-        public IActionResult CreatePost()
+        private readonly IBlogSerivce _blogService;
+        public BlogController(IBlogSerivce blogService)
         {
+            _blogService = blogService;
+        }
+        [HttpPost("add")]
+        [Authorize]
+        public IActionResult CreatePost([FromBody]Post post)
+        {
+            _blogService.CreatePost(post);
             return Ok();
         }
     }

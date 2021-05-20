@@ -5,20 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotChocolateAPI.Entities
+namespace HotChocolateAPI.Models.DTO
 {
-    public class Post
+    public class PostDto
     {
-        public int Id { get; set; }
-        [Required]
         public string Title { get; set; }
         public string Author { get; set; }
-        
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
-        [Required]
-        public string Description { get; set; }
         public string MainPictureAdress { get; set; }
-        public List<PostParts> PostParts { get; set; }
-
     }
 }

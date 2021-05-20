@@ -1,16 +1,23 @@
 ﻿using AutoMapper;
 using HotChocolateAPI.Entities;
+using HotChocolateAPI.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotChocolateAPI.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateAPI.Services
 {
     public interface IBlogSerivce
     {
-        public void CreatePost(Post dto);
+         int CreatePost(Post dto);
+         List<PostDto> GetAllPosts();
+         Post GetPostById(int id);
+         void Delete(int id);
+
     }
     public class BlogService : IBlogSerivce
     {
@@ -23,7 +30,7 @@ namespace HotChocolateAPI.Services
             _mapper = mapper;
             _userContextService = userContextService;
         }
-        public void CreatePost(Post dto)
+        public int CreatePost(Post dto)
         {
             var post = new Post();
             post.PostParts = new List<PostParts>();
@@ -38,7 +45,35 @@ namespace HotChocolateAPI.Services
             post.Author = _userContextService.User.Identity.Name;
             _context.Posts.Add(post);
             _context.SaveChanges();
+            return post.Id;
         }
+        public List<PostDto> GetAllPosts()
+        {
+            var posts = _context.Posts.ToList();
 
+            if (posts == null)
+                throw new EmptyListException("Pusta lista postów");
+            
+            return _mapper.Map<List<PostDto>>(posts);
+
+        }
+        public Post GetPostById(int id)
+        {
+            var post = _context.Posts.Include(x=>x.PostParts).FirstOrDefault(x => x.Id == id);
+            if (post == null)
+                throw new EmptyListException($"Nie znaleziono bloga o id:{id}");
+
+            return post;
+        }
+        public void Delete(int id)
+        {
+            var post = _context.Posts.Include(x=>x.PostParts).FirstOrDefault(x => x.Id == id);
+            if (post == null)
+                throw new EmptyListException($"Nie znaleziono bloga o id:{id}");
+
+            _context.PostParts.RemoveRange(post.PostParts);
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+        }
     }
 }

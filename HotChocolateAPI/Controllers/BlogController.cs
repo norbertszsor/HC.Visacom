@@ -19,11 +19,33 @@ namespace HotChocolateAPI.Controllers
             _blogService = blogService;
         }
         [HttpPost("add")]
-        [Authorize]
+        [Authorize(Roles ="Admin,Blogger")]
         public IActionResult CreatePost([FromBody]Post post)
         {
-            _blogService.CreatePost(post);
-            return Ok();
+           var id =  _blogService.CreatePost(post);
+
+            return Created($"api/blog/{id}", null);
+        }
+        [HttpGet]
+       
+        public IActionResult GetAllPosts()
+        {
+            var posts = _blogService.GetAllPosts();
+            return Ok(posts);
+        }
+        [HttpGet("{id}")]
+        
+        public IActionResult GetPostById([FromRoute]int id)
+        {
+            var post = _blogService.GetPostById(id);
+            return Ok(post);
+        }
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Blogger")]
+        public IActionResult DeletePostById([FromRoute]int id)
+        {
+            _blogService.Delete(id);
+            return NoContent();
         }
     }
 }

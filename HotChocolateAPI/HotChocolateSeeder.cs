@@ -70,6 +70,10 @@ namespace HotChocolateAPI
                 new Role()
                 {
                     Name="Admin"
+                },
+                new Role()
+                {
+                    Name="Blogger"
                 }
             };
             return roles;

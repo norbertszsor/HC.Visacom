@@ -45,7 +45,7 @@ namespace HotChocolateAPI.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult GetAllOrders()
         {
             var listOfOrders = _ordersSrevice.GetAll();

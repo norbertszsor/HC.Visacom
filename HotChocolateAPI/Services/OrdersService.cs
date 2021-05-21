@@ -87,8 +87,8 @@ namespace HotChocolateAPI.Services
         public OrderDto GetOrder(int id)
         {
             var userid = _userContextService.GetUserId;
-            
-            var userrole = _userContextService.User.IsInRole("Admin");
+
+            var userrole = _userContextService.User.IsInRole("Admin") || _userContextService.User.IsInRole("Warehouseman");
 
             var order = _context.Orders
                 .Include(p => p.Products).Include(u => u.User).Include(a => a.Address).Include(x => x.OrderAmountProducts).Include(x=>x.OrderStatus)

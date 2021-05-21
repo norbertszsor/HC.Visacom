@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Controllers
             _productService = productService;
         }
         [HttpPost("addproduct")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult AddProduct([FromBody] CreateProductDto dto)
         {
             _productService.AddProduct(dto);
@@ -29,7 +29,7 @@ namespace HotChocolateAPI.Controllers
         }
       
         [HttpDelete("delete/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult DeleteProduct([FromRoute] int id)
         {
             _productService.DeleteProduct(id);
@@ -37,7 +37,7 @@ namespace HotChocolateAPI.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
         {
             _productService.UpdateProduct(id, dto);

@@ -368,12 +368,12 @@ namespace HotChocolateAPI
         private List<Opinion> GetOpinions()
         {
             Random rnd = new Random();
-            var len = _dbContext.Products.ToList().Count + 1;
+            var len = _dbContext.Products.ToList().Count;
             var list = new List<Opinion>()
             {
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Kozak",
                     Date = DateTime.Now.ToShortDateString(),
@@ -381,7 +381,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Moja babcia ma i poleca",
                     Date = DateTime.Now.ToShortDateString(),
@@ -389,7 +389,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Szybko usycha",
                     Date = DateTime.Now.ToShortDateString(),
@@ -397,7 +397,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Bez szału",
                     Date = DateTime.Now.ToShortDateString(),
@@ -405,7 +405,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Polecam",
                     Date = DateTime.Now.ToShortDateString(),
@@ -413,7 +413,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Trzeba często podlewać",
                     Date = DateTime.Now.ToShortDateString(),
@@ -421,7 +421,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Słabe",
                     Date = DateTime.Now.ToShortDateString(),
@@ -429,7 +429,7 @@ namespace HotChocolateAPI
                 },
                 new Opinion()
                 {
-                    ProductId = rnd.Next(len),
+                    ProductId = rnd.Next(len) + 1,
                     Stars = rnd.Next(4) + 1,
                     DescriptionOfOpinion = "Bez nawozu nie urośnie",
                     Date = DateTime.Now.ToShortDateString(),

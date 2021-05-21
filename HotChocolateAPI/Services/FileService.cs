@@ -37,6 +37,8 @@ namespace HotChocolateAPI.Services
             var rootPath = Directory.GetCurrentDirectory();
             var fileName = file.FileName;
             var fullPath = $"{rootPath}/Pictures/{fileName}";
+                if (File.Exists(fullPath))
+                    throw new AlreadyExists($"To zdjęcie już istnieje:{fileName}");
 
             using(var stream = new FileStream(fullPath, FileMode.Create))
             {
@@ -58,5 +60,6 @@ namespace HotChocolateAPI.Services
 
             return filePath;
         }
+        
     }
 }

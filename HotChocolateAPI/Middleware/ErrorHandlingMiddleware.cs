@@ -40,6 +40,11 @@ namespace HotChocolateAPI.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(pic.Message);
             }
+            catch(AlreadyExists pic)
+            {
+                context.Response.StatusCode = 409;
+                await context.Response.WriteAsync(pic.Message);
+            }
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;

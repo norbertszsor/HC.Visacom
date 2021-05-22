@@ -36,7 +36,7 @@ namespace HotChocolateAPI.Services
 
             var rootPath = Directory.GetCurrentDirectory();
             var fileName = file.FileName.Replace(" ","_");
-            var fullPath = $"{rootPath}/Pictures/{fileName}";
+            var fullPath = $"{rootPath}\\Pictures\\{fileName}";
             if (File.Exists(fullPath))
                 throw new AlreadyExists($"To zdjęcie już istnieje na serwerze : {fileName}");
             
@@ -52,7 +52,7 @@ namespace HotChocolateAPI.Services
         public string GetPicture(string fileName)
         {
             var rootPath = Directory.GetCurrentDirectory();
-            var filePath = $"{rootPath}/Pictures/{fileName}";
+            var filePath = $"{rootPath}\\Pictures\\{fileName}";
             var fileExists = System.IO.File.Exists(filePath);
             if (!fileExists)
                 throw new PictureDoesntExistException($"Zdjęcie o nazwie {fileName} nie istnieje");

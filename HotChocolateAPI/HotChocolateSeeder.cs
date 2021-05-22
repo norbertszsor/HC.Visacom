@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HotChocolateAPI.Entities;
@@ -67,6 +68,11 @@ namespace HotChocolateAPI
                     _dbContext.Orders.AddRange(GetOrders());
                     _dbContext.SaveChanges();
                 }
+
+                if (!_dbContext.Posts.Any())
+                {
+
+                }
             }
         }
         private IEnumerable<Role> GetRoles()
@@ -130,7 +136,7 @@ namespace HotChocolateAPI
                     Name = "Codiaeum variegatum “Petra”",
                     Price = 30,
                     Description = "Codiaeum variegatum „Petra” to dość wymagająca roślina. Gubi liście gdy tylko poczuje się nieszczęśliwa. Warto poeksperymentować ze znalezieniem dla niej idealnego pod względem warunków świetlnych stanowiska w naszym domu, dzięki czemu jej liście rozwiną w pełni swój potencjał intensywności wybarwienia.",
-                    Amount = 100
+                    Amount = 100,
                 },
                 new Product()
                 {
@@ -336,6 +342,15 @@ namespace HotChocolateAPI
                     Amount = 100
                 }
             };
+
+            var rootPath = Directory.GetCurrentDirectory();
+            foreach (var item in products)
+            {
+                var name = item.Name.Replace(" ", "_");
+                item.PictureURL = $"{rootPath}\\Pictures\\{name}.jpg";
+            }
+
+
             return products;
         }
         private List<OrderStatus> GetStatuses()

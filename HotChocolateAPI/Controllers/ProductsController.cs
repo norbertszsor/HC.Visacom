@@ -1,6 +1,7 @@
 ﻿using HotChocolateAPI.Models;
 using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -38,9 +39,9 @@ namespace HotChocolateAPI.Controllers
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Warehouseman")]
-        public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
+        public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto, [FromForm] IFormFile file)
         {
-            _productService.UpdateProduct(id, dto);
+            _productService.UpdateProduct(id, dto, file);
 
             return NoContent();
         }

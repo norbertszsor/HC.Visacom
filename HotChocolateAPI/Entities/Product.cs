@@ -13,7 +13,7 @@ namespace HotChocolateAPI.Entities
         public string Description { get; set; }
         public int Amount { get; set; }
         public List<Order>? Orders { get; set; }
-
+        public string PictureURL { get; set; }
 
 
     }

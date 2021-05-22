@@ -14,5 +14,7 @@ namespace HotChocolateAPI.Models.DTO
         public string Description { get; set; }
         public int Amount { get; set; }
         public IEnumerable<OpinionView> Opinions { get; set; }
+        public string PictureURL { get; set; }
+
     }
 }

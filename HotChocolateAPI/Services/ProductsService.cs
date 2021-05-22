@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HotChocolateAPI.Models.DTO;
 using HotChocolateAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace HotChocolateAPI.Services
 {
@@ -19,7 +21,7 @@ namespace HotChocolateAPI.Services
         public void AddOpinion(OpininDto dto, int idProduct);
 
         void DeleteProduct(int id);
-        void UpdateProduct(int id, UpdateProductDto dto);
+        void UpdateProduct(int id, UpdateProductDto dto, IFormFile file);
         List<ProductsView> GetAll();
         ProductDto Get(int id);
 
@@ -38,7 +40,7 @@ namespace HotChocolateAPI.Services
         }
         public void AddProduct(CreateProductDto dto)
         {
-            
+     
             var productExist = _context.Products.FirstOrDefault(x => x.Name == dto.Name);
             if (productExist != null)
                 throw new ProductAlreadyExistException("Produkt o takiej nazwie już istnieje");
@@ -97,11 +99,33 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
            
         }
-        public void UpdateProduct(int id, UpdateProductDto dto)
+        public void UpdateProduct(int id, UpdateProductDto dto, IFormFile file)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
             if (product != null)
             {
+                if (file != null)
+                {
+                    string[] types = { "image/jpg", "image/png", "image/jpeg" };
+
+                    if (!(file != null && file.Length > 0 && (file.ContentType == types[0] || file.ContentType == types[1] || file.ContentType == types[2])))
+                        throw new AlreadyExists("Plik nie jest w formacie JPG/JPEG/PNG lub plik jest pusty");
+
+                    var rootPath = Directory.GetCurrentDirectory();
+                    var fileName = file.FileName.Replace(" ", "_");
+                    var fullPath = $"{rootPath}\\Pictures\\{fileName}";
+                    if (File.Exists(fullPath))
+                        throw new AlreadyExists($"To zdjęcie już istnieje na serwerze : {fileName}");
+
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    };
+                    product.PictureURL = fullPath;
+                }
+
+
                 product.Name = dto.Name;
                 product.Description = dto.Description;
                 product.Price = dto.Price;

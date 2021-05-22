@@ -35,10 +35,11 @@ namespace HotChocolateAPI.Services
                 throw new AlreadyExists("Plik nie jest w formacie JPG/JPEG/PNG lub plik jest pusty");
 
             var rootPath = Directory.GetCurrentDirectory();
-            var fileName = file.FileName;
+            var fileName = file.FileName.Replace(" ","_");
             var fullPath = $"{rootPath}/Pictures/{fileName}";
             if (File.Exists(fullPath))
                 throw new AlreadyExists($"To zdjęcie już istnieje na serwerze : {fileName}");
+            
 
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {

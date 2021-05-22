@@ -21,15 +21,13 @@ namespace HotChocolateAPI.Controllers
             _fileService = fileService;
         }
         [HttpPost("add")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Blogger")]
         public ActionResult AddPicture([FromForm] IFormFile file)
         {
-            var result =_fileService.Add(file);
-            if (result)
-            {  
+            _fileService.Add(file);
+            
             return Ok();
-            }
-            return BadRequest();
+           
         }
         [HttpGet("{fileName}")]
         public ActionResult GetPictures([FromRoute] string fileName)

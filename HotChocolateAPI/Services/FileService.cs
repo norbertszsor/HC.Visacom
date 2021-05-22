@@ -14,7 +14,7 @@ namespace HotChocolateAPI.Services
 {
     public interface IFileService
     {
-        bool Add(IFormFile file);
+        void Add(IFormFile file);
         string GetPicture(string fileName);
     }
     public class FileService : IFileService
@@ -27,27 +27,25 @@ namespace HotChocolateAPI.Services
             _context = context;
             _mapper = mapper;
         }
-        public bool Add(IFormFile file)
+        public void Add(IFormFile file)
         {
-            string[] types = { "image/jpg", "image/png" };
+            string[] types = { "image/jpg", "image/png", "image/jpeg" };
 
-            if (file != null && file.Length > 0 && (file.ContentType==types[0] || file.ContentType==types[1]))
-            {
-            
+            if (!(file != null && file.Length > 0 && (file.ContentType==types[0] || file.ContentType==types[1]|| file.ContentType==types[2])))
+                throw new AlreadyExists("Plik nie jest w formacie JPG/JPEG/PNG lub plik jest pusty");
+
             var rootPath = Directory.GetCurrentDirectory();
             var fileName = file.FileName;
             var fullPath = $"{rootPath}/Pictures/{fileName}";
-                if (File.Exists(fullPath))
-                    throw new AlreadyExists($"To zdjęcie już istnieje:{fileName}");
+            if (File.Exists(fullPath))
+                throw new AlreadyExists($"To zdjęcie już istnieje na serwerze : {fileName}");
 
-            using(var stream = new FileStream(fullPath, FileMode.Create))
+            using (var stream = new FileStream(fullPath, FileMode.Create))
             {
                 file.CopyTo(stream);
-            };    
-                return true;
-            }
+            };
 
-            return false;
+           
         }
 
         public string GetPicture(string fileName)

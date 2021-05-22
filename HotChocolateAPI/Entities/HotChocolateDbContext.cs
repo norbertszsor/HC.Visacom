@@ -9,7 +9,7 @@ namespace HotChocolateAPI.Entities
 {
     public class HotChocolateDbContext: DbContext
     {
-        private string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=HotChocolateDb;Trusted_Connection=True;";
+        private string _connectionString = "Server=tcp:okiplantsdbserver.database.windows.net,1433;Initial Catalog=OkiPlantsDb;Persist Security Info=False;User ID=Admin1337;Password=Password123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }

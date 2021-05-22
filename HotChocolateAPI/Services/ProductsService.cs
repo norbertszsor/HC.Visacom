@@ -21,7 +21,7 @@ namespace HotChocolateAPI.Services
         public void AddOpinion(OpininDto dto, int idProduct);
 
         void DeleteProduct(int id);
-        void UpdateProduct(int id, UpdateProductDto dto, IFormFile file);
+        void UpdateProduct(int id, UpdateProductDto dto);
         List<ProductsView> GetAll();
         ProductDto Get(int id);
 
@@ -99,41 +99,18 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
            
         }
-        public void UpdateProduct(int id, UpdateProductDto dto, IFormFile file)
+        public void UpdateProduct(int id, UpdateProductDto dto)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
-            if (product != null)
-            {
-                if (file != null)
-                {
-                    string[] types = { "image/jpg", "image/png", "image/jpeg" };
-
-                    if (!(file != null && file.Length > 0 && (file.ContentType == types[0] || file.ContentType == types[1] || file.ContentType == types[2])))
-                        throw new AlreadyExists("Plik nie jest w formacie JPG/JPEG/PNG lub plik jest pusty");
-
-                    var rootPath = Directory.GetCurrentDirectory();
-                    var fileName = file.FileName.Replace(" ", "_");
-                    var fullPath = $"{rootPath}\\Pictures\\{fileName}";
-                    if (File.Exists(fullPath))
-                        throw new AlreadyExists($"To zdjęcie już istnieje na serwerze : {fileName}");
-
-
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    };
-                    product.PictureURL = fullPath;
-                }
-
-
-                product.Name = dto.Name;
-                product.Description = dto.Description;
-                product.Price = dto.Price;
-                product.Amount = dto.Amount;
-                if (product.Amount < 0)
-                    product.Amount = 0;
-                _context.SaveChanges();
-            }
+            if (product == null)
+                throw new EmptyListException("Nie znaleziono produktu o takim id");
+            product.Name = dto.Name;
+            product.Description = dto.Description;
+            product.Price = dto.Price;
+            product.Amount = dto.Amount;
+            if (product.Amount < 0)
+                product.Amount = 0;
+            _context.SaveChanges();
         }
         public List<ProductsView> GetAll()
         {

@@ -39,9 +39,9 @@ namespace HotChocolateAPI.Controllers
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Warehouseman")]
-        public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto, [FromForm] IFormFile file)
+        public ActionResult UpdateProduct([FromRoute] int id, [FromBody]UpdateProductDto dto)
         {
-            _productService.UpdateProduct(id, dto, file);
+            _productService.UpdateProduct(id, dto);
 
             return NoContent();
         }

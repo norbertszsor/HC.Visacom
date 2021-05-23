@@ -22,6 +22,7 @@ using System.Text;
 using HotChocolateAPI.Middleware;
 using AutoMapper;
 using HotChocolateAPI.Models.DTO;
+using Microsoft.OpenApi.Models;
 
 namespace HotChocolateAPI
 {
@@ -59,7 +60,34 @@ namespace HotChocolateAPI
                 };
             });
             services.AddAutoMapper(this.GetType().Assembly);
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gr2 UWM API", Version = "v1" });
+            });
 
             services.AddCors(options =>
             {

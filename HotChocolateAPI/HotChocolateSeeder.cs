@@ -343,11 +343,11 @@ namespace HotChocolateAPI
                 }
             };
 
-            var rootPath = Directory.GetCurrentDirectory();
+            var rootPath = "http://visacomhotchocolate.cba.pl/images/";
             foreach (var item in products)
             {
                 var name = item.Name.Replace(" ", "_");
-                item.PictureURL = $"{rootPath}\\Pictures\\{name}.jpg";
+                item.PictureURL = $"{rootPath}{name}.jpg";
             }
 
 

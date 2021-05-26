@@ -97,6 +97,13 @@ namespace HotChocolateAPI.Controllers
 
             return Ok(accountDetails);
         }
+        [HttpPost("add")]
+        [Authorize(Roles ="Admin")]
+        public ActionResult CreateAccountByAdmin([FromBody] CreateAccountDto dto)
+        {
+            var account = _accountService.CreateAccount(dto);
+            return Ok(account);
+        }
        
     }
 }

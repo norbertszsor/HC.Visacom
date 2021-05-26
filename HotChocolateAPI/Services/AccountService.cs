@@ -28,6 +28,7 @@ namespace HotChocolateAPI.Services
         UserDetailsView GetUser(int id);
         void EditDetails(UpdateDetailsDto dto);
         MyAccountDetailsView MyAccountDetails();
+        int CreateAccount(CreateAccountDto dto);
 
 
     }
@@ -207,6 +208,27 @@ namespace HotChocolateAPI.Services
             details.Role = user.Role.Name;
 
             return details;
+        }
+
+        public int CreateAccount(CreateAccountDto dto)
+        {
+            var newUser = new User()
+            {
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                RoleId = dto.RoleId,
+                IsActivated = true,
+                PhoneNumber = dto.PhoneNumber
+            };
+
+            var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
+            newUser.PasswordHash = hashedPassword;
+            
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+
+            return newUser.Id;
         }
     }
 }

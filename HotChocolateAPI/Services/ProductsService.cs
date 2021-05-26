@@ -50,6 +50,7 @@ namespace HotChocolateAPI.Services
             var product = _mapper.Map<Product>(dto);
             if (product.Amount < 0)
                 product.Amount = 0;
+            
             _context.Products.Add(product);
 
             _context.SaveChanges();

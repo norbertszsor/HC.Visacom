@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Services
         List<OrderView> GetAll();
         OrderDto GetOrder(int id);
         void ChangeStatusForOrder(int id, OrderStatusDto dto);
-
+        void Delete(int id);
     }
 
     public class OrdersService : IOrdersService
@@ -139,6 +139,18 @@ namespace HotChocolateAPI.Services
 
             _context.SaveChanges();
 
+        }
+        public void Delete(int id)
+        {
+            var order = _context.Orders.Include(o => o.OrderAmountProducts).Include(p => p.Products).FirstOrDefault(x => x.Id == id);
+
+            order.OrderStatusId = 5;
+
+            foreach (var item in order.Products)
+            {
+                item.Amount += order.OrderAmountProducts.FirstOrDefault(x => x.ProductId == item.Id).Amount;
+            }
+            _context.SaveChanges();
         }
 
     }

@@ -60,7 +60,13 @@ namespace HotChocolateAPI.Controllers
 
             return NoContent();
         }
-
+        [HttpDelete("delete/{id}")]
+        [Authorize(Roles= "Admin,Warehouseman")]
+        public ActionResult DeleteOrderById([FromRoute]int id)
+        {
+            _ordersSrevice.Delete(id);
+            return NoContent();
+        }
           
     }
 }

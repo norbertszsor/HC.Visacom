@@ -24,7 +24,7 @@ namespace HotChocolateAPI.Controllers
             _ordersSrevice = OrdersService;
             
         }
-        [HttpPost("create")]
+        [HttpPost("add")]
         [Authorize]
         public ActionResult Create([FromBody] CreateOrderDto dto)
         {
@@ -52,7 +52,7 @@ namespace HotChocolateAPI.Controllers
 
             return Ok(listOfOrders);
         }
-        [HttpPut("updateStatus/{id}")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult ChangeStatus([FromRoute]int id,[FromBody]OrderStatusDto dto)
         {

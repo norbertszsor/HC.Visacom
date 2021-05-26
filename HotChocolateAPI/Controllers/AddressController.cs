@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Controllers
         {
             _addressService = addressService;
         }
-        [HttpPost("addaddress")]
+        [HttpPost("add")]
         [Authorize]
         public ActionResult AddAddress([FromBody] AddressDto dto)
         {

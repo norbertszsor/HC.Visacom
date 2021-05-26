@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Controllers
         {
             _productService = productService;
         }
-        [HttpPost("addproduct")]
+        [HttpPost("add")]
         [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult AddProduct([FromBody] CreateProductDto dto)
         {

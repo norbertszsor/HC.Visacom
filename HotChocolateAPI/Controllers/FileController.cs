@@ -20,7 +20,7 @@ namespace HotChocolateAPI.Controllers
         {
             _fileService = fileService;
         }
-        [HttpPost("addforproduct")]
+        [HttpPost("add")]
         [Authorize(Roles = "Admin,Warehouseman")]
         public ActionResult AddPictureForProduct([FromBody] AddPictureDto dto)
         {

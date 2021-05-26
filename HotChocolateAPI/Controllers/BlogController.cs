@@ -40,7 +40,7 @@ namespace HotChocolateAPI.Controllers
             var post = _blogService.GetPostById(id);
             return Ok(post);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin,Blogger")]
         public IActionResult DeletePostById([FromRoute]int id)
         {

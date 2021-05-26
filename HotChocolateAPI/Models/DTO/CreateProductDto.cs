@@ -11,9 +11,10 @@ namespace HotChocolateAPI.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        [MaxLength(200,ErrorMessage ="Opis może zawierać maksymalnie 200 znaków.")]
         public string Description { get; set; }
         public int? Amount { get; set; }
+     
+       
         public string PictureURL { get; set; }
 
 

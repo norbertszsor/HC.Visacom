@@ -132,17 +132,43 @@ namespace HotChocolateAPI.Services
         }
         public void ChangeActivity(int id, ManageAccountDto dto)
         {
-            var user = _context.Users.Include(u=>u.Role).FirstOrDefault(x => x.Id == id);
-            var roles = _context.Roles.ToList();
+            var user = _context.Users.Include(u => u.Role).FirstOrDefault(x => x.Id == id);
             if (user == null)
                 throw new BadRequestException($"Użytkownik o id: {id}");
+
+            if (dto.Email!=null)
+            {
+                var emailInDb = _context.Users.FirstOrDefault(x => x.Email == dto.Email);
+                if(emailInDb!=null)
+                {
+                    throw new AlreadyExists("Email jest już zajęty!");
+                }
+                user.Email = dto.Email;  
+            }
+            if(dto.Password!=null)
+            { 
+                if (dto.Password.Length < 8)
+                { 
+                    throw new Exception("Hasło musi mieć min. 8 znaków");
+                }
+                var newhashedPassword = _passwordHasher.HashPassword(user, dto.Password);
+                user.PasswordHash = newhashedPassword;
+            }
+         
             if (user.RoleId == 3)
                 throw new BadRequestException("Nie możesz zarządzać tym kontem");
-            if (dto.RoleId > roles.Count || dto.RoleId <= 0)
+            if (dto.RoleId > 4 || dto.RoleId <= 0)
                 throw new BadRequestException($"Podano niewlaściwe RoleId: {dto.RoleId}");
             if (dto.RoleId == 3)
                 throw new BadRequestException("Nie możesz nominować nowego admina.");
+            if(dto.FirstName!=null)
+                user.FirstName = dto.FirstName;
+            if (dto.LastName != null)
+                user.LastName = dto.LastName;
+            if (dto.PhoneNumber.Length < 9)
+                throw new Exception("Numer musi mieć min 9 cyfr.");
 
+         
             user.RoleId = dto.RoleId;
             user.IsActivated = dto.IsActivated;
             _context.SaveChanges();

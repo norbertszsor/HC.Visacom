@@ -17,7 +17,7 @@ namespace HotChocolateAPI.Services
          List<PostView> GetAllPosts();
          Post GetPostById(int id);
          void Delete(int id);
-
+        void UpdatePost(int id, UpdateBlogDto dto);
     }
     public class BlogService : IBlogSerivce
     {
@@ -77,6 +77,18 @@ namespace HotChocolateAPI.Services
             _context.PostParts.RemoveRange(post.PostParts);
             _context.Posts.Remove(post);
             _context.SaveChanges();
+        }
+
+        public void UpdatePost(int id, UpdateBlogDto dto)
+        {
+            var post = _context.Posts.FirstOrDefault(x => x.Id == id);
+            if (post == null)
+                throw new Exception("Post nie istnieje");
+            post.Description = dto.Description;
+            post.Title = dto.Title;
+            post.MainPictureAdress = dto.MainPictureAdress;
+            _context.SaveChanges();
+
         }
     }
 }

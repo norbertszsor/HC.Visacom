@@ -52,6 +52,7 @@ namespace HotChocolateAPI.Controllers
         [Authorize(Roles = "Admin, Blogger")]
         public IActionResult UpdateBlog([FromRoute]int id,[FromBody] UpdateBlogDto dto)
         {
+            _blogService.UpdatePost(id, dto);
             return Ok();
         }
     }

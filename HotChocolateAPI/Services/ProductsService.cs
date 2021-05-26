@@ -109,6 +109,7 @@ namespace HotChocolateAPI.Services
             product.Description = dto.Description;
             product.Price = dto.Price;
             product.Amount = dto.Amount;
+            product.PictureURL = dto.PictureURL;
             if (product.Amount < 0)
                 product.Amount = 0;
             _context.SaveChanges();

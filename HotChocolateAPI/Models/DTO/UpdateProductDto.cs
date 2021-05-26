@@ -14,5 +14,6 @@ namespace HotChocolateAPI.Models
         [MaxLength(200, ErrorMessage = "Opis może zawierać maksymalnie 200 znaków.")]
         public string Description { get; set; }
         public int Amount { get; set; }
+        public string PictureURL { get; set; }
     }
 }

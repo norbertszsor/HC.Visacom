@@ -202,8 +202,9 @@ namespace HotChocolateAPI.Services
         public MyAccountDetailsView MyAccountDetails()
         {
             var userId = _userContextService.GetUserId;
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users.Include(x=>x.Role).FirstOrDefault(x => x.Id == userId);
             var details = _mapper.Map<MyAccountDetailsView>(user);
+            details.Role = user.Role.Name;
 
             return details;
         }

@@ -13,6 +13,7 @@ namespace HotChocolateAPI.Models.ViewModels
         public string LastName { get; set; }
        
         public string PhoneNumber { get; set; }
-        
+        public string Role { get; set; }
+
     }
 }

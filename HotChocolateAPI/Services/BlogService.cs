@@ -33,10 +33,13 @@ namespace HotChocolateAPI.Services
         public int CreatePost(PostDto dto)
         {
             var post = new Post();
-            post.PostParts = new List<PostParts>();
-            foreach (var item in dto.PostParts)
+            if (dto.PostParts != null)
             {
-                post.PostParts.Add(item);
+                post.PostParts = new List<PostParts>();
+                foreach (var item in dto.PostParts)
+                {
+                    post.PostParts.Add(item);
+                }
             }
             post.MainPictureAdress = dto.MainPictureAdress;
             post.Title = dto.Title;

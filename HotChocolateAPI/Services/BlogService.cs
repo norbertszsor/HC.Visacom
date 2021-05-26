@@ -13,8 +13,8 @@ namespace HotChocolateAPI.Services
 {
     public interface IBlogSerivce
     {
-         int CreatePost(Post dto);
-         List<PostDto> GetAllPosts();
+         int CreatePost(PostDto dto);
+         List<PostView> GetAllPosts();
          Post GetPostById(int id);
          void Delete(int id);
 
@@ -30,7 +30,7 @@ namespace HotChocolateAPI.Services
             _mapper = mapper;
             _userContextService = userContextService;
         }
-        public int CreatePost(Post dto)
+        public int CreatePost(PostDto dto)
         {
             var post = new Post();
             post.PostParts = new List<PostParts>();
@@ -47,14 +47,14 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
             return post.Id;
         }
-        public List<PostDto> GetAllPosts()
+        public List<PostView> GetAllPosts()
         {
             var posts = _context.Posts.ToList();
 
             if (posts == null)
                 throw new EmptyListException("Pusta lista postów");
             
-            return _mapper.Map<List<PostDto>>(posts);
+            return _mapper.Map<List<PostView>>(posts);
 
         }
         public Post GetPostById(int id)

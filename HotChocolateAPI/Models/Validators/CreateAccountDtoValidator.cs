@@ -27,8 +27,6 @@ namespace HotChocolateAPI.Models.Validators
                 .MaximumLength(35);
             RuleFor(x => x.Password)
                 .MinimumLength(8);
-            RuleFor(x => x.ConfirmPassword)
-                .Equal(e => e.Password);
             RuleFor(x => x.Email)
                 .Custom((value, context) =>
                 {

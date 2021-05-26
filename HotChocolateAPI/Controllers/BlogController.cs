@@ -21,7 +21,7 @@ namespace HotChocolateAPI.Controllers
         }
         [HttpPost("add")]
         [Authorize(Roles = "Admin,Blogger")]
-        public IActionResult CreatePost([FromBody] Post post)
+        public IActionResult CreatePost([FromBody] PostDto post)
         {
             var id = _blogService.CreatePost(post);
 

@@ -24,7 +24,7 @@ namespace HotChocolateAPI.Mapping
             CreateMap<OpinionView, Opinion>().ReverseMap().ForMember(o => o.UserName, s => s.MapFrom(x => x.User.FirstName));
             CreateMap<User, UserDetailsView>();
             CreateMap<Product, ProductsView>().ReverseMap();
-            CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Post, PostView>().ReverseMap();
             
 
         }

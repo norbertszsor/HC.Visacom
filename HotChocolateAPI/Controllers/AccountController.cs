@@ -27,7 +27,7 @@ namespace HotChocolateAPI.Controllers
             _accountService.RegisterUser(dto);
             return Ok();
         }
-        [HttpDelete("manage/getusers/delete/{id}")]
+        [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Admin")]
         public ActionResult Delete([FromRoute]int id)
         {
@@ -56,7 +56,7 @@ namespace HotChocolateAPI.Controllers
 
             return Ok();
         }
-        [HttpGet("manage/getusers")]
+        [HttpGet]
         [Authorize(Roles ="Admin")]
         public ActionResult GetUsers()
         {

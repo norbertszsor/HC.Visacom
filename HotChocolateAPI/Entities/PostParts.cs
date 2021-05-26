@@ -9,7 +9,6 @@ namespace HotChocolateAPI.Entities
     public class PostParts
     {
         public int Id { get; set; }
-        
         public string Title { get; set; }
         public string Description { get; set; }
         public string PictureAddress { get; set; }

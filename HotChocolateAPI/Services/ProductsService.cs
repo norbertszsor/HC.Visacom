@@ -118,11 +118,13 @@ namespace HotChocolateAPI.Services
             {
                 var columnsSelector = new Dictionary<string,Expression<Func<Product,object>>>
                     {
-                    { nameof(Product.Name).ToLower(),r=>r.Name},
-                    { nameof(Product.Price).ToLower(),r=>r.Price},
-                    { nameof(Product.Amount).ToLower(),r=>r.Amount}
-                     };
-                
+                        { nameof(Product.Name).ToLower(),r=>r.Name},
+                        { nameof(Product.Price).ToLower(),r=>r.Price},
+                        { nameof(Product.Amount).ToLower(),r=>r.Amount}
+                    };
+
+                if (query.SortBy == null)
+                    query.SortBy = "Name"; 
 
                 var selectedColumn = columnsSelector[query.SortBy];
 

@@ -84,6 +84,7 @@ namespace HotChocolateAPI.Services
             var post = _context.Posts.FirstOrDefault(x => x.Id == id);
             if (post == null)
                 throw new Exception("Post nie istnieje");
+            post.Date = DateTime.Now;
             post.Description = dto.Description;
             post.Title = dto.Title;
             post.MainPictureAdress = dto.MainPictureAdress;

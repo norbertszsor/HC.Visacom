@@ -29,7 +29,7 @@ namespace HotChocolateAPI.Services
         void EditDetails(UpdateDetailsDto dto);
         MyAccountDetailsView MyAccountDetails();
         int CreateAccount(CreateAccountDto dto);
-        void UpdateAccountByAdmin(UserList dto,int id);
+        
 
     }
     public class AccountService : IAccountService
@@ -256,9 +256,6 @@ namespace HotChocolateAPI.Services
 
             return newUser.Id;
         }
-        public void UpdateAccountByAdmin(UserList dto, int id)
-        {
-
-        }
+        
     }
 }

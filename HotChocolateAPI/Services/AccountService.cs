@@ -22,14 +22,14 @@ namespace HotChocolateAPI.Services
         void RegisterUser(RegisterUserDto dto);
         bool Delete(int i);
         string GenerateJwt(LoginDto dto);
-        void ChangeActivity(int id, ManageAccountDto dto);
+        void ManageAccount(int id, ManageAccountDto dto);
         List<UserList> GetAll();
         void ChangePassword(NewPasswordDto dto);
         UserDetailsView GetUser(int id);
         void EditDetails(UpdateDetailsDto dto);
         MyAccountDetailsView MyAccountDetails();
         int CreateAccount(CreateAccountDto dto);
-
+        void UpdateAccountByAdmin(UserList dto,int id);
 
     }
     public class AccountService : IAccountService
@@ -130,11 +130,11 @@ namespace HotChocolateAPI.Services
 
             return tokenHandler.WriteToken(token);
         }
-        public void ChangeActivity(int id, ManageAccountDto dto)
+        public void ManageAccount(int id, ManageAccountDto dto)
         {
             var user = _context.Users.Include(u => u.Role).FirstOrDefault(x => x.Id == id);
             if (user == null)
-                throw new BadRequestException($"Użytkownik o id: {id}");
+                throw new BadRequestException($"Użytkownik o id: {id} nie istnieje");
 
             if (dto.Email!=null)
             {
@@ -255,6 +255,10 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
             return newUser.Id;
+        }
+        public void UpdateAccountByAdmin(UserList dto, int id)
+        {
+
         }
     }
 }

@@ -18,6 +18,9 @@ namespace HotChocolateAPI.Models.Validators
                     if (value>5 || value<1)
                         context.AddFailure("Opinion", "Value must be from 1 to 5");
                 });
+            RuleFor(x => x.DescriptionOfOpinion)
+                .NotEmpty()
+                .MaximumLength(1000);
         }
     }
 }

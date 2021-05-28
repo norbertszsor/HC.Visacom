@@ -52,7 +52,7 @@ namespace HotChocolateAPI.Controllers
         [Authorize(Roles ="Admin")]
         public ActionResult ManageAccount([FromRoute] int id,[FromBody] ManageAccountDto dto)
         {
-            _accountService.ChangeActivity(id,dto);
+            _accountService.ManageAccount(id,dto);
 
             return Ok();
         }
@@ -104,6 +104,7 @@ namespace HotChocolateAPI.Controllers
             var account = _accountService.CreateAccount(dto);
             return Ok(account);
         }
+       
        
     }
 }

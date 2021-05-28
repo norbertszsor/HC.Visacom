@@ -60,10 +60,6 @@ namespace HotChocolateAPI.Services
         public void AddOpinion(OpininDto dto, int idProduct)
         {
             var iduser = (int)_userContextService.GetUserId;
-            var orders = _context.Orders.Include(x => x.Products).FirstOrDefault(x => x.UserId == iduser && (null != (x.Products.FirstOrDefault(s => s.Id == idProduct))));
-
-            if (orders == null)
-                throw new ProductAlreadyExistException("Nie możesz dodać opinni dla tego produktu bez zakupu");
 
             var opinion = _context.Opinions.FirstOrDefault(x => x.UserId == iduser && x.ProductId == idProduct);
 
@@ -92,8 +88,6 @@ namespace HotChocolateAPI.Services
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
             if (product == null) 
                 throw new ProductAlreadyExistException($"Produkt o id: {id} nie istnieje");
-                
-            
 
             var result = _context.Products.Remove(product);
          

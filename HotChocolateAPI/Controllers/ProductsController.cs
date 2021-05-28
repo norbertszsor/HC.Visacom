@@ -1,4 +1,5 @@
 ﻿using HotChocolateAPI.Models;
+using HotChocolateAPI.Models.Query;
 using HotChocolateAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -46,9 +47,9 @@ namespace HotChocolateAPI.Controllers
             return NoContent();
         }
         [HttpGet]
-        public ActionResult GetAll()
+        public ActionResult GetAll([FromQuery]ProductQuery query)
         {
-            var list = _productService.GetAll();
+            var list = _productService.GetAll(query);
 
             return Ok(list);
         }

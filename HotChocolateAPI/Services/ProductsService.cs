@@ -11,6 +11,8 @@ using HotChocolateAPI.Models.DTO;
 using HotChocolateAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using HotChocolateAPI.Models.Query;
+using System.Linq.Expressions;
 
 namespace HotChocolateAPI.Services
 {
@@ -22,7 +24,7 @@ namespace HotChocolateAPI.Services
 
         void DeleteProduct(int id);
         void UpdateProduct(int id, UpdateProductDto dto);
-        List<ProductsView> GetAll();
+        List<ProductsView> GetAll(ProductQuery query);
         ProductDto Get(int id);
 
     }
@@ -108,10 +110,28 @@ namespace HotChocolateAPI.Services
                 product.Amount = 0;
             _context.SaveChanges();
         }
-        public List<ProductsView> GetAll()
+        public List<ProductsView> GetAll(ProductQuery query)
         {
-            var products = _context.Products.ToList();
-            var list = _mapper.Map<List<ProductsView>>(products);
+            var products = _context.Products.Where(p => query.ProductName == null || p.Name.ToLower().Contains(query.ProductName.ToLower()));
+         
+            if(!string.IsNullOrEmpty(query.SortBy))
+            {
+                var columnsSelector = new Dictionary<string,Expression<Func<Product,object>>>
+                    {
+                    { nameof(Product.Name).ToLower(),r=>r.Name},
+                    { nameof(Product.Price).ToLower(),r=>r.Price},
+                    { nameof(Product.Amount).ToLower(),r=>r.Amount}
+                     };
+                
+
+                var selectedColumn = columnsSelector[query.SortBy];
+
+                products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
+                    products.OrderByDescending(selectedColumn);
+            }
+
+            var list = _mapper.Map<List<ProductsView>>(products.ToList());
+
             return list;
         }
         public ProductDto Get(int id)

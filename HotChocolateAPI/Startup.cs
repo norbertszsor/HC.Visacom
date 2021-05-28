@@ -23,6 +23,7 @@ using HotChocolateAPI.Middleware;
 using AutoMapper;
 using HotChocolateAPI.Models.DTO;
 using Microsoft.OpenApi.Models;
+using HotChocolateAPI.Models.Query;
 
 namespace HotChocolateAPI
 {
@@ -124,6 +125,7 @@ namespace HotChocolateAPI
             services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
             services.AddScoped<IValidator<UpdateDetailsDto>, UpdateDetailsValidator>();
             services.AddScoped<IValidator<AddressDto>, AdressDtoValidator>();
+            services.AddScoped<IValidator<ProductQuery>, ProductQueryValidator>();
 
 
         }

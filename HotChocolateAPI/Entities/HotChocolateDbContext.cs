@@ -11,6 +11,8 @@ namespace HotChocolateAPI.Entities
     {
         private string _connectionString = "Server=tcp:okiplantsdbserver.database.windows.net,1433;Initial Catalog=OkiPlantsDb;Persist Security Info=False;User ID=Admin1337;Password=Password123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
+        //(localdb)\MSSQLLocalDB;Initial Catalog=HotChocolateDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+        //do testów lokalnie
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Address> Addresses { get; set; }

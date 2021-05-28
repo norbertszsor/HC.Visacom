@@ -113,8 +113,9 @@ namespace HotChocolateAPI.Services
         public List<ProductsView> GetAll(ProductQuery query)
         {
             var products = _context.Products.Where(p => query.ProductName == null || p.Name.ToLower().Contains(query.ProductName.ToLower()));
-         
-            if(!string.IsNullOrEmpty(query.SortBy))
+
+           
+            if (!string.IsNullOrEmpty(query.SortBy))
             {
                 var columnsSelector = new Dictionary<string,Expression<Func<Product,object>>>
                     {
@@ -123,13 +124,17 @@ namespace HotChocolateAPI.Services
                         { nameof(Product.Amount).ToLower(),r=>r.Amount}
                     };
 
-                if (query.SortBy == null)
-                    query.SortBy = "Name"; 
+                
 
                 var selectedColumn = columnsSelector[query.SortBy];
 
                 products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
                     products.OrderByDescending(selectedColumn);
+            }
+            else
+            {
+                products = query.SortDirection == SortDirection.ASC ? products.OrderBy(x=>x.Name) :
+                                   products.OrderByDescending(x=>x.Name);
             }
 
             var list = _mapper.Map<List<ProductsView>>(products.ToList());

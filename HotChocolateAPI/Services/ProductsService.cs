@@ -114,7 +114,7 @@ namespace HotChocolateAPI.Services
         {
             var products = _context.Products.Where(p => query.ProductName == null || p.Name.ToLower().Contains(query.ProductName.ToLower()));
 
-           
+            
             if (!string.IsNullOrEmpty(query.SortBy))
             {
                 var columnsSelector = new Dictionary<string,Expression<Func<Product,object>>>
@@ -123,7 +123,7 @@ namespace HotChocolateAPI.Services
                         { nameof(Product.Price).ToLower(),r=>r.Price},
                         { nameof(Product.Amount).ToLower(),r=>r.Amount}
                     };
-                
+
                 var selectedColumn = columnsSelector[query.SortBy];
 
                 if(query.SortBy=="amount")
@@ -133,9 +133,11 @@ namespace HotChocolateAPI.Services
                         :
                         products.OrderByDescending(selectedColumn);
                 }
-
-                products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
-                    products.OrderByDescending(selectedColumn);
+                else
+                { 
+                    products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
+                        products.OrderByDescending(selectedColumn);
+                }
             }
             else
             {

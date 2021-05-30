@@ -123,10 +123,16 @@ namespace HotChocolateAPI.Services
                         { nameof(Product.Price).ToLower(),r=>r.Price},
                         { nameof(Product.Amount).ToLower(),r=>r.Amount}
                     };
-
                 
-
                 var selectedColumn = columnsSelector[query.SortBy];
+
+                if(query.SortBy=="amount")
+                {
+                    products = query.SortDirection == SortDirection.ASC ? 
+                        products.OrderBy(selectedColumn).Where(x => x.Amount <= 10 && x.Amount != 0)
+                        :
+                        products.OrderByDescending(selectedColumn);
+                }
 
                 products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
                     products.OrderByDescending(selectedColumn);

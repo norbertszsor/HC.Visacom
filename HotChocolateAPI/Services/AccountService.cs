@@ -262,7 +262,7 @@ namespace HotChocolateAPI.Services
             var iduser = (int)_userContextService.GetUserId;
 
             var orders = _context.Orders
-                .Include(p => p.Products)
+                .Include(x=>x.Products)
                 .Include(u => u.User)
                 .Include(a => a.Address)
                 .Include(x => x.OrderAmountProducts)
@@ -271,7 +271,8 @@ namespace HotChocolateAPI.Services
 
             if (orders == null)
                 throw new EmptyListException("Nie masz jeszcze żadnych zamówień");
-            
+          
+
             return _mapper.Map<List<MyOrdersDto>>(orders);
 
         }

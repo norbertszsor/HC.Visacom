@@ -10,7 +10,7 @@ namespace HotChocolateAPI.Models.DTO
     public class MyOrdersDto
     {
         public string Status { get; set; }
-        public List<CreateProductDto> Products { get; set; }
+        public List<ProductsForMyOrdersDto> Products { get; set; }
         public Address Address { get; set; }
         public decimal TotalCost { get; set; }
     }

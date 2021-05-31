@@ -30,7 +30,7 @@ namespace HotChocolateAPI.Services
         MyAccountDetailsView MyAccountDetails();
         int CreateAccount(CreateAccountDto dto);
 
-        List<MyOrdersDto> GetOrders();
+        List<OrderDto> GetOrders();
 
     }
     public class AccountService : IAccountService
@@ -257,9 +257,45 @@ namespace HotChocolateAPI.Services
 
             return newUser.Id;
         }
-        public List<MyOrdersDto> GetOrders()
+        public List<OrderDto> GetOrders()
         {
-            var iduser = (int)_userContextService.GetUserId;
+            var userid = _userContextService.GetUserId;
+
+            var order = _context.Orders
+                .Include(p => p.Products).Include(u => u.User).Include(a => a.Address).Include(x => x.OrderAmountProducts).Include(x => x.OrderStatus)
+                .Where(x => x.UserId == userid);
+
+            if (order == null)
+                throw new EmptyListException("Nie masz żadnych zamówień");
+
+            var orderList = new List<OrderDto>();
+            foreach (var item in order)
+            {
+                var orderdto = new OrderDto();
+                orderdto.OrderId = item.Id;
+                orderdto.User = _mapper.Map<UserDto>(item.User);
+                orderdto.Address = item.Address;
+                orderdto.TotalCost = item.TotalCost;
+                var ditios = new List<CreateProductDto>();
+                foreach (var item2 in item.Products)
+                {
+                    var tmp = _mapper.Map<CreateProductDto>(item2);
+                    tmp.Amount = item.OrderAmountProducts.FirstOrDefault(x => x.ProductId == item2.Id).Amount;
+                    ditios.Add(tmp);
+                }
+                orderdto.Products = ditios;
+                orderdto.Status = item.OrderStatus.Name;
+                orderList.Add(orderdto);
+            }
+            return orderList;
+
+
+
+
+
+
+
+            /*var iduser = (int)_userContextService.GetUserId;
 
             var orders = _context.Orders
                 .Include(x=>x.Products)
@@ -273,7 +309,7 @@ namespace HotChocolateAPI.Services
                 throw new EmptyListException("Nie masz jeszcze żadnych zamówień");
           
 
-            return _mapper.Map<List<MyOrdersDto>>(orders);
+            return _mapper.Map<List<MyOrdersDto>>(orders);*/
 
         }
         

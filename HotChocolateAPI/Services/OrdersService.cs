@@ -17,6 +17,7 @@ namespace HotChocolateAPI.Services
     {
 
         int Create(CreateOrderDto dto);
+        int Create2(CreateOrderDto2 dto);
         List<OrderView> GetAll();
         OrderDto GetOrder(int id);
         void ChangeStatusForOrder(int id, OrderStatusDto dto);
@@ -71,6 +72,55 @@ namespace HotChocolateAPI.Services
             }
 
             
+            order.TotalCost = suma;
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+            return order.Id;
+        }
+        public int Create2(CreateOrderDto2 dto)
+        {
+            List<ProductForOrderDto> fromDto = dto.Product;
+
+            Dictionary<int, int> productIdAndAmounts = new Dictionary<int, int>();
+
+            foreach (var item in fromDto)
+            {
+                productIdAndAmounts.Add(item.Id, item.Amount);
+            }
+
+            var products = _context.Products.Where(x => productIdAndAmounts.Keys.Contains(x.Id));
+
+            if (products == null)
+                throw new EmptyListException("Lista produktów jest pusta");
+
+            foreach (var item in products)
+            {
+                if (item.Amount < productIdAndAmounts[item.Id])
+                    throw new BadRequestException($"Brak danej ilości produktu {item.Name} w magazynie");
+            }
+            decimal suma = 0;
+
+            var order = new Order()
+            {
+                UserId = (int)_userContextService.GetUserId,
+                AddressId = dto.AddressId,
+                Date = DateTime.Now.ToShortDateString(),
+                OrderStatusId = 1,
+                Products = products.ToList(),
+                OrderAmountProducts = new List<OrderAmountProducts>()
+            };
+
+            foreach (var item in products)
+            {
+                item.Amount -= productIdAndAmounts[item.Id];
+                suma += productIdAndAmounts[item.Id] * item.Price;
+                order.OrderAmountProducts.Add(new OrderAmountProducts
+                {
+                    ProductId = item.Id,
+                    Amount = productIdAndAmounts[item.Id]
+                });
+            }
+
             order.TotalCost = suma;
             _context.Orders.Add(order);
             _context.SaveChanges();

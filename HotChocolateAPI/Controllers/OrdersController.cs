@@ -24,7 +24,7 @@ namespace HotChocolateAPI.Controllers
             _ordersSrevice = OrdersService;
             
         }
-        [HttpPost("add")]
+        [HttpPost("add2")]
         [Authorize]
         public ActionResult Create([FromBody] CreateOrderDto dto)
         {
@@ -32,6 +32,13 @@ namespace HotChocolateAPI.Controllers
 
             var id = _ordersSrevice.Create(dto);
 
+            return Created($"/api/orders/{id}", null);
+        }
+        [HttpPost("add")]
+        [Authorize]
+        public ActionResult Create2([FromBody]CreateOrderDto2 dto)
+        {
+            var id = _ordersSrevice.Create2(dto);
             return Created($"/api/orders/{id}", null);
         }
 

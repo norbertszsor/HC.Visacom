@@ -14,7 +14,7 @@ namespace HotChocolateAPI.Models.DTO
         public string Description { get; set; }
         public string Author { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string MainPictureAdress { get; set; }
     }
 }

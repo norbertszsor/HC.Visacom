@@ -1,21 +1,17 @@
 ﻿using HotChocolateAPI.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HotChocolateAPI.Models.DTO
 {
-    public class OrderDto
+    public class MyOrdersDto
     {
-        public int OrderId { get; set; }
-        public UserDto User { get; set; }
         public string Status { get; set; }
-        public List<CreateProductDto> Products{ get; set; }
+        public List<CreateProductDto> Products { get; set; }
         public Address Address { get; set; }
         public decimal TotalCost { get; set; }
-        
-
     }
 }

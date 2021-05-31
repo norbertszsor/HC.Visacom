@@ -104,7 +104,13 @@ namespace HotChocolateAPI.Controllers
             var account = _accountService.CreateAccount(dto);
             return Ok(account);
         }
-       
+       [HttpGet("myorders")]
+       [Authorize]
+       public ActionResult GetMyOrders()
+        {
+            var orders = _accountService.GetOrders();
+            return Ok(orders);
+        }
        
     }
 }

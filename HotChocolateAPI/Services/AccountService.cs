@@ -29,7 +29,8 @@ namespace HotChocolateAPI.Services
         void EditDetails(UpdateDetailsDto dto);
         MyAccountDetailsView MyAccountDetails();
         int CreateAccount(CreateAccountDto dto);
-        
+
+        List<MyOrdersDto> GetOrders();
 
     }
     public class AccountService : IAccountService
@@ -255,6 +256,24 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
             return newUser.Id;
+        }
+        public List<MyOrdersDto> GetOrders()
+        {
+            var iduser = (int)_userContextService.GetUserId;
+
+            var orders = _context.Orders
+                .Include(p => p.Products)
+                .Include(u => u.User)
+                .Include(a => a.Address)
+                .Include(x => x.OrderAmountProducts)
+                .Include(x => x.OrderStatus)
+                .Where(x => x.User.Id == iduser).ToList();
+
+            if (orders == null)
+                throw new EmptyListException("Nie masz jeszcze żadnych zamówień");
+            
+            return _mapper.Map<List<MyOrdersDto>>(orders);
+
         }
         
     }

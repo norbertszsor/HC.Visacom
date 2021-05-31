@@ -22,6 +22,8 @@ namespace HotChocolateAPI.Mapping
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<OrderView, Order>().ReverseMap().ForMember(o => o.Status, s => s.MapFrom(x => x.OrderStatus.Name));
             CreateMap<OpinionView, Opinion>().ReverseMap().ForMember(o => o.UserName, s => s.MapFrom(x => x.User.FirstName));
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<MyOrdersDto, Order>().ReverseMap().ForMember(o=>o.Status, s=>s.MapFrom(x=>x.OrderStatus.Name));
             CreateMap<User, UserDetailsView>();
             CreateMap<Product, ProductsView>().ReverseMap();
             CreateMap<PostView, Post>().ReverseMap().ForMember(o => o.Date, s => s.MapFrom(x => x.Date.ToShortDateString()));

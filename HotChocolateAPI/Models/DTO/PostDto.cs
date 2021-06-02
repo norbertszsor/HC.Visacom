@@ -17,6 +17,6 @@ namespace HotChocolateAPI.Models.DTO
         [Required]
         public string Description { get; set; }
         public string MainPictureAdress { get; set; }
-        public List<PostParts> PostParts { get; set; }
+       
     }
 }

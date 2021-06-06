@@ -48,7 +48,7 @@ namespace HotChocolateAPI.Controllers
             _blogService.Delete(id);
             return NoContent();
         }
-        [HttpPut("{Id}")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Admin, Blogger")]
         public IActionResult UpdateBlog([FromRoute]int id,[FromBody] UpdateBlogDto dto)
         {

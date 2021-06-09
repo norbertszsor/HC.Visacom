@@ -144,9 +144,20 @@ namespace HotChocolateAPI.Services
                 products = query.SortDirection == SortDirection.ASC ? products.OrderBy(x=>x.Name) :
                                    products.OrderByDescending(x=>x.Name);
             }
-
+            var opinions = _context.Opinions.ToList();
+            Dictionary<int, int> opinionsIds = new();
+            foreach (var item in opinions)
+            {
+                opinionsIds.TryAdd(item.ProductId, item.Stars);
+            }
+           
             var list = _mapper.Map<List<ProductsView>>(products.ToList());
-
+            int value = 0;
+            foreach (var item in list)
+            {
+                opinionsIds.TryGetValue(item.Id, out value);
+                item.Stars = value;
+            }
             return list;
         }
         public ProductDto Get(int id)

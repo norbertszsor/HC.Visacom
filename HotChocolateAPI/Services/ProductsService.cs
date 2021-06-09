@@ -26,6 +26,7 @@ namespace HotChocolateAPI.Services
         void UpdateProduct(int id, UpdateProductDto dto);
         List<ProductsView> GetAll(ProductQuery query);
         ProductDto Get(int id);
+        List<ProductsView> GetThreeLowestAmount();
 
     }
     public class ProductsService : IProductService
@@ -42,7 +43,7 @@ namespace HotChocolateAPI.Services
         }
         public void AddProduct(CreateProductDto dto)
         {
-     
+
             var productExist = _context.Products.FirstOrDefault(x => x.Name == dto.Name);
             if (productExist != null)
                 throw new ProductAlreadyExistException("Produkt o takiej nazwie już istnieje");
@@ -52,7 +53,7 @@ namespace HotChocolateAPI.Services
             var product = _mapper.Map<Product>(dto);
             if (product.Amount < 0)
                 product.Amount = 0;
-            
+
             _context.Products.Add(product);
 
             _context.SaveChanges();
@@ -88,13 +89,13 @@ namespace HotChocolateAPI.Services
         public void DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == id);
-            if (product == null) 
+            if (product == null)
                 throw new ProductAlreadyExistException($"Produkt o id: {id} nie istnieje");
 
             var result = _context.Products.Remove(product);
-         
+
             _context.SaveChanges();
-           
+
         }
         public void UpdateProduct(int id, UpdateProductDto dto)
         {
@@ -114,57 +115,58 @@ namespace HotChocolateAPI.Services
         {
             var products = _context.Products.Where(p => query.ProductName == null || p.Name.ToLower().Contains(query.ProductName.ToLower()));
 
-            
+            var opinions = _context.Opinions.ToList();
+
+            var list = _mapper.Map<List<ProductsView>>(products.ToList());
+
+            foreach (var item in list)
+            {
+                var opinionsProducts = opinions.Where(x => x.ProductId == item.Id).ToList();
+                if (opinionsProducts.Count == 0)
+                {
+                    item.Stars = 0;
+                }
+                else
+                {
+                    var stars = opinionsProducts.Select(x => x.Stars).ToList();
+                    item.Stars = stars.Average();
+                }
+            }
+
+
+
             if (!string.IsNullOrEmpty(query.SortBy))
             {
-                var columnsSelector = new Dictionary<string,Expression<Func<Product,object>>>
+                var columnsSelector = new Dictionary<string, Expression<Func<ProductsView, object>>>
                     {
-                        { nameof(Product.Name).ToLower(),r=>r.Name},
-                        { nameof(Product.Price).ToLower(),r=>r.Price},
-                        { nameof(Product.Amount).ToLower(),r=>r.Amount}
+                        { nameof(ProductsView.Name).ToLower(),r=>r.Name},
+                        { nameof(ProductsView.Price).ToLower(),r=>r.Price},
+                        { nameof(ProductsView.Amount).ToLower(),r=>r.Amount},
+                        { nameof(ProductsView.Stars).ToLower(),r=>r.Stars}
                     };
 
                 var selectedColumn = columnsSelector[query.SortBy];
 
-                if(query.SortBy=="amount")
-                {
-                    products = query.SortDirection == SortDirection.ASC ? 
-                        products.OrderBy(selectedColumn).Where(x => x.Amount <= 10 && x.Amount != 0)
-                        :
-                        products.OrderByDescending(selectedColumn);
-                }
-                else
-                { 
-                    products = query.SortDirection == SortDirection.ASC ? products.OrderBy(selectedColumn) :
-                        products.OrderByDescending(selectedColumn);
-                }
+                var test = list.AsQueryable();
+
+                var cos = query.SortDirection == SortDirection.ASC ? test.OrderBy(selectedColumn) :
+                    test.OrderByDescending(selectedColumn);
+                return cos.ToList();
             }
             else
             {
-                products = query.SortDirection == SortDirection.ASC ? products.OrderBy(x=>x.Name) :
-                                   products.OrderByDescending(x=>x.Name);
+                var test = list.AsQueryable();
+                var cos = query.SortDirection == SortDirection.ASC ? test.OrderBy(x => x.Name) :
+                                   test.OrderByDescending(x => x.Name);
+                return cos.ToList();
             }
-            var opinions = _context.Opinions.ToList();
-            Dictionary<int, int> opinionsIds = new();
-            foreach (var item in opinions)
-            {
-                opinionsIds.TryAdd(item.ProductId, item.Stars);
-            }
-           
-            var list = _mapper.Map<List<ProductsView>>(products.ToList());
-            int value = 0;
-            foreach (var item in list)
-            {
-                opinionsIds.TryGetValue(item.Id, out value);
-                item.Stars = value;
-            }
-            return list;
+
         }
         public ProductDto Get(int id)
         {
-            var products = _context.Opinions.Include(x => x.Product).Include(u=>u.User).Where(x => x.ProductId == id).ToList();
+            var products = _context.Opinions.Include(x => x.Product).Include(u => u.User).Where(x => x.ProductId == id).ToList();
 
-            if(products.Count == 0)
+            if (products.Count == 0)
             {
                 var product = _context.Products.FirstOrDefault(x => x.Id == id);
                 if (product == null)
@@ -181,6 +183,46 @@ namespace HotChocolateAPI.Services
             }
             prod.Opinions = opinions;
             return prod;
+        }
+        public List<ProductsView> GetThreeLowestAmount()
+        {
+            var products = _context.Products.Where(x => x.Amount != 0);
+            if (products == null)
+                throw new EmptyListException("Pusta lista produktów");
+            var ebe = products.OrderBy(x => x.Amount).ToList();
+
+            int zordon = 0;
+            var toMap = new List<ProductsView>();
+
+            foreach (var item in ebe)
+            {
+                if (zordon < 3)
+                    toMap.Add(_mapper.Map<ProductsView>(item));
+                else
+                    break;
+                zordon++;
+            }
+
+            var cos = toMap.Select(x => x.Id).ToList();
+
+            var opinions = _context.Opinions.Where(x => cos.Contains(x.Id));
+            if (opinions != null)
+            {
+                foreach (var item in toMap)
+                {
+                    var pom = opinions.Where(x => x.Id == item.Id).ToList();
+                    if (pom.Count == 0)
+                    {
+                        item.Stars = 0;
+                    }
+                    else
+                    {
+                        var stars = pom.Select(x => x.Stars).ToList();
+                        item.Stars = stars.Average();
+                    }
+                }
+            }
+            return toMap;
         }
     }
 }

@@ -68,6 +68,12 @@ namespace HotChocolateAPI.Controllers
             _productService.AddOpinion(dto, id);
             return Ok();
         }
+        [HttpGet("norbeczka")]
+        public ActionResult TakeThreeProductsWithLowestAmount()
+        {
 
+            var prod = _productService.GetThreeLowestAmount();
+            return Ok(prod);
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace HotChocolateAPI.Models.Validators
 {
     public class ProductQueryValidator : AbstractValidator<ProductQuery>
     {
-        private string[] allowedColumnNames = { nameof(Product.Name).ToLower(), nameof(Product.Price).ToLower(), nameof(Product.Amount).ToLower() };
+        private string[] allowedColumnNames = { nameof(Product.Name).ToLower(), nameof(Product.Price).ToLower(), nameof(Product.Amount).ToLower(), "stars" };
         public ProductQueryValidator()
         {
             RuleFor(x => x.SortBy).Must(value => string.IsNullOrEmpty(value) || allowedColumnNames.Contains(value))

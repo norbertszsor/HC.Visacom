@@ -34,6 +34,12 @@ namespace HotChocolateAPI.Controllers
             var addresses = _addressService.GetMyAddresses();
             return Ok(addresses);
         }
-        
+        [HttpDelete("delete/{id}")]
+        [Authorize]
+        public ActionResult DeleteMyAddress([FromRoute]int id)
+        {
+            _addressService.DeleteAddress(id);
+            return NoContent();
+        }
     }
 }

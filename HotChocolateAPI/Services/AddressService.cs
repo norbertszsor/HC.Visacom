@@ -14,6 +14,7 @@ namespace HotChocolateAPI.Services
     {
         public void AddAddress(AddressDto dto);
         public List<Address> GetMyAddresses();
+        public void DeleteAddress(int id);
     }
     public class AddressService : IAddressService
     {
@@ -47,6 +48,21 @@ namespace HotChocolateAPI.Services
             _context.SaveChanges();
 
         }
+
+        public void DeleteAddress(int id)
+        {
+            var userId = _userContextService.GetUserId;
+
+            var adres = _context.Users.Include(x => x.Address).FirstOrDefault(x => x.Id == userId);
+            if (!adres.Address.Any())
+                throw new EmptyListException("Nie masz zapisanych adresów");
+            _context.Addresses.Remove(adres.Address.FirstOrDefault(x => x.Id == id));
+
+            _context.SaveChanges();
+
+
+        }
+
         public List<Address> GetMyAddresses()
         {
             var userId = _userContextService.GetUserId;
